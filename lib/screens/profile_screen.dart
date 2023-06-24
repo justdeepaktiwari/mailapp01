@@ -78,9 +78,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     textInputType: TextInputType.visiblePassword,
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                     width: double.infinity,
                   ),
+                  ButtonWidget(
+                      buttonName: "Save",
+                      onPressed: () {
+                       
+                      },
+                    ),
                   const SizedBox(
                     height: 50,
                     width: double.infinity,

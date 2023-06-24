@@ -25,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
     return Scaffold(
+      backgroundColor: AppConstants.primaryColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
