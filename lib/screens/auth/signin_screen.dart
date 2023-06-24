@@ -94,7 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ButtonWidget(
                   buttonName: "Sign In",
                   onPressed: () {
-                    submitData();
+                    auth.login();
                   },
                 ),
                 const SizedBox(
@@ -113,9 +113,5 @@ class _SignInScreenState extends State<SignInScreen> {
         )
       ],
     );
-  }
-
-  Future<void> submitData() async {
-    print(emailAddress.text);
   }
 }
