@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/utils/constants.dart';
 
-class PasswordTextFieldWidget extends StatelessWidget {
-  const PasswordTextFieldWidget({super.key});
+// ignore: must_be_immutable
+class TextFieldWidget extends StatelessWidget {
+  final String labelText;
+  final bool isPasswordType;
+  TextEditingController editingController;
+  TextInputType textInputType;
+
+  TextFieldWidget({
+    super.key,
+    required this.labelText,
+    required this.editingController,
+    required this.isPasswordType,
+    required this.textInputType,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: editingController,
+      obscureText: isPasswordType,
+      enableSuggestions: true,
+      autocorrect: true,
+      keyboardType: textInputType,
       style: const TextStyle(color: AppConstants.appColor),
-      obscureText: true,
-      enableSuggestions: false,
-      autocorrect: false,
       decoration: InputDecoration(
         labelStyle: const TextStyle(
           color: AppConstants.appColor,
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
-        labelText: "Password",
+        labelText: labelText,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),

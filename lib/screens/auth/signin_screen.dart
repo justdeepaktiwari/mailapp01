@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/utils/constants.dart';
-import 'package:mailapp01/widgets/textfields/email_field.dart';
-import 'package:mailapp01/widgets/textfields/password_field.dart';
+import 'package:mailapp01/widgets/button.dart';
+import 'package:mailapp01/widgets/text_diffrent_color.dart';
+import 'package:mailapp01/widgets/text_field.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -13,6 +14,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  TextEditingController emailAddress = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -56,84 +60,51 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const EmailTextFieldWidget(),
+                TextFieldWidget(
+                  labelText: "Email Adress",
+                  editingController: emailAddress,
+                  isPasswordType: false,
+                  textInputType: TextInputType.emailAddress,
+                ),
                 const SizedBox(
                   height: 50,
                   width: double.infinity,
                 ),
-                const PasswordTextFieldWidget(),
+                TextFieldWidget(
+                  labelText: "Password",
+                  editingController: password,
+                  isPasswordType: true,
+                  textInputType: TextInputType.visiblePassword,
+                ),
                 const SizedBox(
                   height: 10,
                   width: double.infinity,
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 5, 0, 0),
-                  child: RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Forgot Password?",
-                          style: TextStyle(
-                            color: AppConstants.appColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " click here",
-                        )
-                      ],
-                    ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10.0, 5, 0, 0),
+                  child: TextDiffrentColorWidget(
+                    startText: "Forgot Password?",
+                    endText: " click here",
                   ),
                 ),
                 const SizedBox(
                   height: 50,
                   width: double.infinity,
                 ),
-                ElevatedButton(
+                ButtonWidget(
+                  buttonName: "Sign In",
                   onPressed: () {
-                    auth.login();
+                    submitData();
                   },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    minimumSize: const Size(double.infinity, 55),
-                  ),
-                  child: const Text(
-                    "Sign In",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                    ),
-                  ),
                 ),
                 const SizedBox(
                   height: 50,
                   width: double.infinity,
                 ),
-                Center(
-                  child: RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "New User?",
-                          style: TextStyle(
-                            color: AppConstants.appColor,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " SIGN UP",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
+                const Center(
+                  child: TextDiffrentColorWidget(
+                    startText: "New User?",
+                    endText: " SIGN UP",
                   ),
                 ),
               ],
@@ -142,5 +113,9 @@ class _SignInScreenState extends State<SignInScreen> {
         )
       ],
     );
+  }
+
+  Future<void> submitData() async {
+    print(emailAddress.text);
   }
 }
