@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class AppConstants {
   // Define color constants
   static const Color primaryColor = Color(0xFF041F4F);
+  static const Color bottomNavigationColor = Color.fromARGB(255, 0, 27, 69);
   static const Color appColor = Color(0xFF0E58DB);
+  static const Color cardColor = Color(0xFF0D2B61);
 
   static const MaterialColor primaryColorMaterial = MaterialColor(
     0xFF041F4F,
