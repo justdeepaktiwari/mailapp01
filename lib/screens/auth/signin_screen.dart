@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/reset_screen.dart';
+import 'package:mailapp01/screens/auth/signup_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/button.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
 import 'package:mailapp01/widgets/text_field.dart';
 import 'package:provider/provider.dart';
+
+import 'forget_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -67,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   textInputType: TextInputType.emailAddress,
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                   width: double.infinity,
                 ),
                 TextFieldWidget(
@@ -80,11 +84,21 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 10,
                   width: double.infinity,
                 ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(10.0, 5, 0, 0),
-                  child: TextDiffrentColorWidget(
-                    startText: "Forgot Password?",
-                    endText: " click here",
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10.0, 5, 0, 0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgetScreen(),
+                        ),
+                      );
+                    },
+                    child: const TextDiffrentColorWidget(
+                      startText: "Forgot Password?",
+                      endText: " click here",
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -101,16 +115,26 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 50,
                   width: double.infinity,
                 ),
-                const Center(
-                  child: TextDiffrentColorWidget(
-                    startText: "New User?",
-                    endText: " SIGN UP",
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
+                    },
+                    child: const TextDiffrentColorWidget(
+                      startText: "New User?",
+                      endText: " SIGN UP",
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
