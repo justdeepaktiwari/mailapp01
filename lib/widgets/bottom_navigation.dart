@@ -19,7 +19,7 @@ class BottomNavigationBarUtils extends StatelessWidget {
     return Visibility(
       visible: isLoggedIn,
       child: BottomNavigationBar(
-        backgroundColor: AppConstants.primaryColor,
+        backgroundColor: AppConstants.bottomNavigationColor,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
