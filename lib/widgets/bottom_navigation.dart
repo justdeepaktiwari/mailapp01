@@ -53,10 +53,9 @@ class BottomNavigationBarUtils extends StatelessWidget {
         unselectedIconTheme: const IconThemeData(color: AppConstants.white),
         currentIndex: selectIndex,
         selectedItemColor: AppConstants.bootomButtonColor,
+        unselectedItemColor: AppConstants.white,
         type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        elevation: 23,
+        elevation: 50,
         onTap: onItemTapped,
       ),
     );
