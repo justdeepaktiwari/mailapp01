@@ -8,19 +8,15 @@ import '../../widgets/button.dart';
 import '../../widgets/text_diffrent_color.dart';
 import '../../widgets/text_field.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class ForgetScreen extends StatefulWidget {
+  const ForgetScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<ForgetScreen> createState() => _ForgetScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController name = TextEditingController();
-  TextEditingController phone = TextEditingController();
+class _ForgetScreenState extends State<ForgetScreen> {
   TextEditingController emailAddress = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -35,7 +31,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             const Center(
               child: Text(
-                "Sign Up",
+                "Forget Password",
                 style: TextStyle(
                   fontSize: 40,
                   color: AppConstants.appColor,
@@ -67,51 +63,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFieldWidget(
-                      labelText: "Full Name",
-                      editingController: name,
-                      isPasswordType: false,
-                      textInputType: TextInputType.text,
+                    const Text(
+                      "Email Address",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: AppConstants.appColor,
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
-                      width: double.infinity,
                     ),
-                    TextFieldWidget(
-                      labelText: "Phone Number",
-                      editingController: phone,
-                      isPasswordType: false,
-                      textInputType: TextInputType.phone,
+                    const Text(
+                      "Enter the Email Address associated with your account.",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppConstants.appColor,
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
-                      width: double.infinity,
                     ),
                     TextFieldWidget(
                       labelText: "E-mail Address",
                       editingController: emailAddress,
                       isPasswordType: false,
                       textInputType: TextInputType.emailAddress,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                      width: double.infinity,
-                    ),
-                    TextFieldWidget(
-                      labelText: "Password",
-                      editingController: password,
-                      isPasswordType: true,
-                      textInputType: TextInputType.visiblePassword,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                      width: double.infinity,
-                    ),
-                    TextFieldWidget(
-                      labelText: "Confirm Password",
-                      editingController: confirmPassword,
-                      isPasswordType: true,
-                      textInputType: TextInputType.visiblePassword,
                     ),
                     const SizedBox(
                       height: 10,
@@ -122,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: double.infinity,
                     ),
                     ButtonWidget(
-                      buttonName: "Sign In",
+                      buttonName: "Send link",
                       onPressed: () {
                         auth.login();
                       },
@@ -130,22 +108,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(
                       height: 50,
                       width: double.infinity,
-                    ),
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignInScreen(),
-                            ),
-                          );
-                        },
-                        child: const TextDiffrentColorWidget(
-                          startText: "Already a User?",
-                          endText: " SIGN IN",
-                        ),
-                      ),
                     ),
                   ],
                 ),
