@@ -9,7 +9,6 @@ import 'package:mailapp01/screens/setting_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/bottom_navigation.dart';
 import 'package:mailapp01/widgets/button.dart';
-import 'package:mailapp01/widgets/requestcard_complex.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
 import 'package:mailapp01/widgets/text_field.dart';
 import 'package:provider/provider.dart';
