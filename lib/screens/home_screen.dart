@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/forget_screen.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/complex/complex_screen.dart';
 import 'package:mailapp01/screens/notifications_screen.dart';
@@ -7,6 +8,10 @@ import 'package:mailapp01/screens/profile_screen.dart';
 import 'package:mailapp01/screens/setting_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/bottom_navigation.dart';
+import 'package:mailapp01/widgets/button.dart';
+import 'package:mailapp01/widgets/requestcard_complex.dart';
+import 'package:mailapp01/widgets/text_diffrent_color.dart';
+import 'package:mailapp01/widgets/text_field.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //Complex Id
+  TextEditingController complexId = TextEditingController();
+
   // Maintain Screen History
   List<int> screenHistory = [];
 
@@ -64,7 +72,80 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppConstants.primaryColor,
         floatingActionButton: _selectedIndex == 1
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    useSafeArea: true,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: AppConstants.primaryColor,
+                        content: SizedBox(
+                          height: 250,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFieldWidget(
+                                labelText: "Complex Id",
+                                editingController: complexId,
+                                isPasswordType: false,
+                                textInputType: TextInputType.text,
+                              ),
+                              const SizedBox(
+                                height: 15,
+                                width: double.infinity,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgetScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const TextDiffrentColorWidget(
+                                  startText: "Don’t See your Complex ID?",
+                                  endText: " Click Here",
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                                width: double.infinity,
+                              ),
+                              ButtonWidget(
+                                onPressed: () {},
+                                buttonName: "Join",
+                              ),
+                              const SizedBox(
+                                height: 20,
+                                width: double.infinity,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    child: const Text(
+                                      "Close",
+                                      style: TextStyle(
+                                        color: AppConstants.white,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: const Icon(Icons.add),
               )
             : null,

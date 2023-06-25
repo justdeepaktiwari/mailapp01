@@ -19,7 +19,7 @@ class TextDiffrentColorWidget extends StatelessWidget {
             text: startText,
             style: const TextStyle(
               color: AppConstants.appColor,
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -27,7 +27,7 @@ class TextDiffrentColorWidget extends StatelessWidget {
             text: endText,
             style: const TextStyle(
               color: AppConstants.white,
-              fontSize: 13,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
           )
