@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
-import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/button.dart';
-import '../../widgets/text_diffrent_color.dart';
 import '../../widgets/text_field.dart';
 
 class ForgetScreen extends StatefulWidget {

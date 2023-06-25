@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/constants.dart';
 import '../widgets/button.dart';
-import '../widgets/text_field.dart';
 import '../widgets/text_field_with_icon.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -82,11 +84,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: double.infinity,
                   ),
                   ButtonWidget(
-                      buttonName: "Save",
-                      onPressed: () {
-                       
-                      },
-                    ),
+                    buttonName: "Save",
+                    onPressed: () {
+                      print(auth.isLoggedIn);
+                      auth.logout();
+                    },
+                  ),
                   const SizedBox(
                     height: 50,
                     width: double.infinity,

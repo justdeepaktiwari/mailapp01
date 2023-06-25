@@ -122,7 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: double.infinity,
                     ),
                     ButtonWidget(
-                      buttonName: "Sign In",
+                      buttonName: "Sign Up",
                       onPressed: () {
                         auth.login();
                       },
@@ -134,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const SignInScreen(),

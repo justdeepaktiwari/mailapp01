@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/complex/complex_screen.dart';
 import 'package:mailapp01/screens/notifications_screen.dart';
 import 'package:mailapp01/screens/profile_screen.dart';
 import 'package:mailapp01/screens/setting_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
-import 'package:mailapp01/utils/screens_manage_utils.dart';
 import 'package:mailapp01/widgets/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
+
+    if (!auth.isLoggedIn) {
+      return const SignInScreen();
+    }
+
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press
@@ -50,11 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return true;
       },
       child: Scaffold(
-        body: ScreenManageUtils(
-          selectIndex: _selectedIndex,
-          widgetOptions: _widgetOptions,
-          isLogeddin: auth.isLoggedIn,
-        ),
+        body: _widgetOptions[_selectedIndex],
         bottomNavigationBar: BottomNavigationBarUtils(
           isLoggedIn: auth.isLoggedIn,
           onItemTapped: onItemTapped,

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,8 +16,14 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.checkLoginStatus();
+    navigate();
+  }
+
+  void navigate() {
     Timer(
       const Duration(seconds: 3),
       () => Navigator.pushReplacement(

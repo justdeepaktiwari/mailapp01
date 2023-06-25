@@ -17,14 +17,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   List items = [];
 
   @override
-  void initState() {
-    super.initState();
-    // fetchNotification();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
+    print(auth.isLoggedIn);
 // PageHeadingWidget(headingText: "NOTIFICATIONS"),
 
     return SafeArea(
