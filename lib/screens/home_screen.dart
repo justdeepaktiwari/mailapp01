@@ -62,6 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
           selectIndex: _selectedIndex,
         ),
         backgroundColor: AppConstants.primaryColor,
+        floatingActionButton: _selectedIndex == 1
+            ? FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add),
+              )
+            : null,
       ),
     );
   }
