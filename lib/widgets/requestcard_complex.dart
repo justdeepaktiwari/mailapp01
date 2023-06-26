@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/screens/auth/forget_screen.dart';
+import 'package:mailapp01/screens/complex/request_complex.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/button.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
@@ -49,7 +50,7 @@ class RequestComplexCardWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ForgetScreen(),
+                          builder: (context) => const RequestComplex(),
                         ),
                       );
                     },
