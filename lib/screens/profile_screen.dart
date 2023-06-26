@@ -86,7 +86,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ButtonWidget(
                     buttonName: "Save",
                     onPressed: () {
-                      print(auth.isLoggedIn);
                       auth.logout();
                     },
                   ),

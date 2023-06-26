@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -20,16 +21,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     authProvider.checkLoginStatus();
-    navigate();
+    navigate(authProvider);
   }
 
-  void navigate() {
+  void navigate(authProvider) async {
+    final bool isLoggedin = await authProvider.getBoolValuesSF("isLoggedIn");
     Timer(
       const Duration(seconds: 3),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) =>
+              isLoggedin ? const HomeScreen() : const SignInScreen(),
         ),
       ),
     );

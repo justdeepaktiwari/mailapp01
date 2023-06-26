@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signup_screen.dart';
+import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/button.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
@@ -110,7 +111,17 @@ class _SignInScreenState extends State<SignInScreen> {
                       buttonName: "Sign In",
                       onPressed: () async {
                         auth.login();
-                        print(auth.isLoggedIn);
+                        final bool isLoggedin =
+                            await auth.getBoolValuesSF("isLoggedIn");
+                        if (isLoggedin) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          );
+                        }
                       },
                     ),
                     const SizedBox(
