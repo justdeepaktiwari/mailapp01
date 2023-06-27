@@ -37,7 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 "Sign In",
                 style: TextStyle(
                   fontSize: 40,
-                  color: AppConstants.appColor,
+                  color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),

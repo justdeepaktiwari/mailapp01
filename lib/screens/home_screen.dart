@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
-import 'package:mailapp01/screens/auth/forget_screen.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/complex/complex_screen.dart';
+import 'package:mailapp01/screens/complex/request_complex.dart';
 import 'package:mailapp01/screens/notifications_screen.dart';
 import 'package:mailapp01/screens/profile_screen.dart';
 import 'package:mailapp01/screens/setting_screen.dart';
@@ -62,10 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
 
-    if (!auth.isLoggedIn) {
-      return const SignInScreen();
-    }
-
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press
@@ -121,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const ForgetScreen(),
+                                          const RequestComplex(),
                                     ),
                                   );
                                 },

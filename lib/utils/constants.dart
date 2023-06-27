@@ -6,6 +6,7 @@ class AppConstants {
   static const Color bottomNavigationColor = Color.fromARGB(255, 0, 27, 69);
   static const Color appColor = Color(0xFF0E58DB);
   static const Color cardColor = Color(0xFF0D2B61);
+  static const Color danger = Color.fromARGB(255, 169, 0, 0);
 
   static const MaterialColor primaryColorMaterial = MaterialColor(
     0xFF041F4F,

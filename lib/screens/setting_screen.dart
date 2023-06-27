@@ -35,14 +35,14 @@ class _SettingScreenState extends State<SettingScreen> {
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                 height: 75,
                 color: AppConstants.cardColor,
-                child: Row(
+                child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "Notification By SMS",
                       style: TextStyle(
-                          color: AppConstants.appColor,
+                          color: AppConstants.white,
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),
@@ -58,14 +58,14 @@ class _SettingScreenState extends State<SettingScreen> {
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
                 height: 75,
                 color: AppConstants.cardColor,
-                child: Row(
+                child: const Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "Notification By Mailbx",
                       style: TextStyle(
-                          color: AppConstants.appColor,
+                          color: AppConstants.white,
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),

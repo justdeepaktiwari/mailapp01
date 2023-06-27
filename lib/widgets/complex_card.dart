@@ -34,7 +34,7 @@ class ComplexCardWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppConstants.appColor,
+                    color: AppConstants.white,
                   ),
                 ),
                 const SizedBox(
@@ -46,14 +46,14 @@ class ComplexCardWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 8,
                     fontWeight: FontWeight.w600,
-                    color: AppConstants.appColor,
+                    color: AppConstants.white,
                   ),
                 ),
               ],
             ),
             const Icon(
               Icons.delete,
-              color: AppConstants.appColor,
+              color: AppConstants.danger,
             )
           ],
         ),

@@ -27,8 +27,8 @@ class TextFieldWidget extends StatelessWidget {
       style: const TextStyle(color: AppConstants.appColor),
       decoration: InputDecoration(
         labelStyle: const TextStyle(
-          color: AppConstants.appColor,
-          fontSize: 18,
+          color: AppConstants.white,
+          fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
         labelText: labelText,

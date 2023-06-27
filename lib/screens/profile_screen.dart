@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/widgets/page_heading.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/constants.dart';
@@ -21,82 +22,99 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            "Profile",
-            style: TextStyle(
-              fontSize: 40,
-              color: AppConstants.white,
-              fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: const PageHeadingWidget(
+              headingText: "PROFILE",
             ),
-          ),
-          const SizedBox(
-            height: 50,
-            width: double.infinity,
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: Form(
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFieldIconWidget(
-                    labelText: "Full Name",
-                    editingController: name,
-                    isPasswordType: false,
-                    textInputType: TextInputType.text,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                    width: double.infinity,
-                  ),
-                  TextFieldIconWidget(
-                    labelText: "Phone Number",
-                    editingController: phone,
-                    isPasswordType: false,
-                    textInputType: TextInputType.phone,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                    width: double.infinity,
-                  ),
-                  TextFieldIconWidget(
-                    labelText: "E-mail Address",
-                    editingController: emailAddress,
-                    isPasswordType: false,
-                    textInputType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                    width: double.infinity,
-                  ),
-                  TextFieldIconWidget(
-                    labelText: "Password",
-                    editingController: password,
-                    isPasswordType: true,
-                    textInputType: TextInputType.visiblePassword,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                    width: double.infinity,
-                  ),
-                  ButtonWidget(
-                    buttonName: "Save",
-                    onPressed: () {
-                      auth.logout();
-                    },
-                  ),
-                  const SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                  ),
-                ],
+            actions: [
+              IconButton(
+                icon: const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                  child: Icon(Icons.logout, size: 28),
+                ),
+                onPressed: () {
+                  auth.logout();
+                },
               ),
-            ),
+            ],
+            floating: true,
+            pinned: true,
+            snap: false,
+            backgroundColor: AppConstants.primaryColor,
+            elevation: 4,
+            toolbarHeight: 80,
           ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                const SizedBox(
+                  height: 80,
+                  width: double.infinity,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFieldIconWidget(
+                          labelText: "Full Name",
+                          editingController: name,
+                          isPasswordType: false,
+                          textInputType: TextInputType.text,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                          width: double.infinity,
+                        ),
+                        TextFieldIconWidget(
+                          labelText: "Phone Number",
+                          editingController: phone,
+                          isPasswordType: false,
+                          textInputType: TextInputType.phone,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                          width: double.infinity,
+                        ),
+                        TextFieldIconWidget(
+                          labelText: "E-mail Address",
+                          editingController: emailAddress,
+                          isPasswordType: false,
+                          textInputType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                          width: double.infinity,
+                        ),
+                        TextFieldIconWidget(
+                          labelText: "Password",
+                          editingController: password,
+                          isPasswordType: true,
+                          textInputType: TextInputType.visiblePassword,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                          width: double.infinity,
+                        ),
+                        ButtonWidget(
+                          buttonName: "Save",
+                          onPressed: () {},
+                        ),
+                        const SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

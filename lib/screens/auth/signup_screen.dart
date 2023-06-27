@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           children: [
             const SizedBox(
-              height: 100,
+              height: 70,
               width: double.infinity,
             ),
             const Center(
@@ -38,13 +38,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 "Sign Up",
                 style: TextStyle(
                   fontSize: 40,
-                  color: AppConstants.appColor,
+                  color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             const SizedBox(
-              height: 80,
+              height: 50,
               width: double.infinity,
             ),
             Container(
@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
             const SizedBox(
-              height: 50,
+              height: 30,
               width: double.infinity,
             ),
             Container(

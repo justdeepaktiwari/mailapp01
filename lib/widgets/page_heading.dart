@@ -11,13 +11,13 @@ class PageHeadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(9, 0, 0, 0),
       child: Text(
         headingText,
         style: const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
-          color: AppConstants.appColor,
+          color: AppConstants.white,
         ),
       ),
     );

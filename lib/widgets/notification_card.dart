@@ -36,7 +36,7 @@ class NotificationCardWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: AppConstants.appColor,
+                    color: AppConstants.white,
                   ),
                 ),
                 const SizedBox(
@@ -48,7 +48,7 @@ class NotificationCardWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: AppConstants.appColor,
+                    color: AppConstants.white,
                   ),
                 ),
                 const SizedBox(
@@ -60,14 +60,14 @@ class NotificationCardWidget extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 8,
                     fontWeight: FontWeight.w600,
-                    color: AppConstants.appColor,
+                    color: AppConstants.white,
                   ),
                 ),
               ],
             ),
             const Icon(
               Icons.notifications_active,
-              color: AppConstants.appColor,
+              color: AppConstants.white,
             )
           ],
         ),

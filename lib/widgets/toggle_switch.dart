@@ -3,7 +3,7 @@ import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:mailapp01/utils/constants.dart';
 
 class ToggleSwitch extends StatefulWidget {
-  ToggleSwitch({Key? key}) : super(key: key);
+  const ToggleSwitch({Key? key}) : super(key: key);
 
   @override
   State<ToggleSwitch> createState() => _ToggleSwitchState();
@@ -24,7 +24,6 @@ class _ToggleSwitchState extends State<ToggleSwitch> {
       textSize: 14.0,
       onChanged: (bool state) {
         //Use it to manage the different states
-        print('Current State of SWITCH IS: $state');
       },
       onTap: () {},
       onDoubleTap: () {},
