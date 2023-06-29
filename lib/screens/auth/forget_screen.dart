@@ -32,7 +32,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                 "Forget Password",
                 style: TextStyle(
                   fontSize: 40,
-                  color: AppConstants.appColor,
+                  color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -66,7 +66,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
-                        color: AppConstants.appColor,
+                        color: AppConstants.white,
                       ),
                     ),
                     const SizedBox(
@@ -77,7 +77,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: AppConstants.appColor,
+                        color: AppConstants.white,
                       ),
                     ),
                     const SizedBox(

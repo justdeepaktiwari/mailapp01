@@ -15,7 +15,7 @@ class AuthProvider with ChangeNotifier {
     // Update the _isLoggedIn value accordingly
 
     addBoolToSF("isLoggedIn", true);
-    _isLoggedIn = await getBoolValuesSF("isLoggedIn");
+    _isLoggedIn = true;
     notifyListeners();
   }
 
@@ -23,7 +23,7 @@ class AuthProvider with ChangeNotifier {
     // Perform your logout logic here
     // Update the _isLoggedIn value accordingly
     addBoolToSF("isLoggedIn", false);
-    _isLoggedIn = await getBoolValuesSF("isLoggedIn");
+    _isLoggedIn = false;
     notifyListeners();
   }
 

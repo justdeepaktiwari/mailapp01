@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +38,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 onPressed: () {
                   auth.logout();
+                  if (!auth.isLoggedIn) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
+                  }
                 },
               ),
             ],

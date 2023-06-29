@@ -42,12 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    navigate(authProvider);
+    navigate(authProvider.isLoggedIn);
   }
 
-  void navigate(authProvider) async {
-    final bool isLoggedin = await authProvider.getBoolValuesSF("isLoggedIn");
-    if (!isLoggedin) {
+  void navigate(isLoggedIn) {
+    if (!isLoggedIn) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
