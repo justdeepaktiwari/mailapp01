@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
+import 'package:mailapp01/services/auth/auth_service.dart';
+import 'package:mailapp01/services/auth/register_body.dart';
 import 'package:mailapp01/utils/constants.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:email_validator/email_validator.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/text_diffrent_color.dart';
@@ -16,11 +20,21 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  bool _isValidEmail = false;
+  bool _isValidPhone = false;
+  bool _isValidPassword = false;
+  bool _isValidCnfPassword = false;
+  bool _isValidName = false;
+
+  String phoneError = "Enter valid phone number";
+  String emailError = "Enter valid Email";
+
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController emailAddress = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -72,6 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       editingController: name,
                       isPasswordType: false,
                       textInputType: TextInputType.text,
+                      errorText: _isValidName ? "Enter a valid name" : null,
                     ),
                     const SizedBox(
                       height: 20,
@@ -82,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       editingController: phone,
                       isPasswordType: false,
                       textInputType: TextInputType.phone,
+                      errorText: _isValidPhone ? phoneError : null,
                     ),
                     const SizedBox(
                       height: 20,
@@ -92,6 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       editingController: emailAddress,
                       isPasswordType: false,
                       textInputType: TextInputType.emailAddress,
+                      errorText: _isValidEmail ? emailError : null,
                     ),
                     const SizedBox(
                       height: 20,
@@ -102,6 +119,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       editingController: password,
                       isPasswordType: true,
                       textInputType: TextInputType.visiblePassword,
+                      errorText:
+                          _isValidPassword ? "Enter at least 6 digit" : null,
                     ),
                     const SizedBox(
                       height: 20,
@@ -112,6 +131,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       editingController: confirmPassword,
                       isPasswordType: true,
                       textInputType: TextInputType.visiblePassword,
+                      errorText: _isValidCnfPassword
+                          ? "Password doesn't matched"
+                          : null,
                     ),
                     const SizedBox(
                       height: 10,
@@ -123,8 +145,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     ButtonWidget(
                       buttonName: "Sign Up",
-                      onPressed: () {
-                        auth.login();
+                      onPressed: () async {
+                        _isValidEmail = !EmailValidator.validate(
+                          emailAddress.text,
+                        );
+
+                        _isValidPassword = password.text.length < 6;
+                        _isValidCnfPassword =
+                            password.text != confirmPassword.text;
+                        _isValidPhone = phone.text.length != 10;
+                        _isValidName = name.text == '';
+
+                        bool fieldCheck = _isValidEmail ||
+                            _isValidPassword ||
+                            _isValidCnfPassword ||
+                            _isValidPhone ||
+                            _isValidName;
+
+                        if (fieldCheck) {
+                          setState(() {});
+                          return;
+                        }
+
+                        _showRegistrationDialog();
+
+                        final response = await AuthService.registerUser(
+                          RegisterBody(
+                            name.text,
+                            emailAddress.text,
+                            phone.text,
+                            password.text,
+                            confirmPassword.text,
+                          ),
+                        );
+
+                        if (response["success"]) {
+                          auth.login();
+                        } else {}
+
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pop();
                       },
                     ),
                     const SizedBox(
@@ -154,6 +214,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showRegistrationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
     );
   }
 }

@@ -20,19 +20,18 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    authProvider.checkLoginStatus();
     navigate(authProvider);
   }
 
   void navigate(authProvider) async {
-    final bool isLoggedin = await authProvider.getBoolValuesSF("isLoggedIn");
     Timer(
       const Duration(seconds: 3),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              isLoggedin ? const HomeScreen() : const SignInScreen(),
+          builder: (context) => authProvider.isLoggedIn
+              ? const HomeScreen()
+              : const SignInScreen(),
         ),
       ),
     );

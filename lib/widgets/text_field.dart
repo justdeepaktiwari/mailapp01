@@ -3,6 +3,8 @@ import 'package:mailapp01/utils/constants.dart';
 
 // ignore: must_be_immutable
 class TextFieldWidget extends StatelessWidget {
+  final String? errorText;
+
   final String labelText;
   final bool isPasswordType;
   TextEditingController editingController;
@@ -14,6 +16,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.editingController,
     required this.isPasswordType,
     required this.textInputType,
+    this.errorText,
   });
 
   @override
@@ -24,13 +27,14 @@ class TextFieldWidget extends StatelessWidget {
       enableSuggestions: true,
       autocorrect: true,
       keyboardType: textInputType,
-      style: const TextStyle(color: AppConstants.appColor),
+      style: const TextStyle(color: AppConstants.white),
       decoration: InputDecoration(
         labelStyle: const TextStyle(
           color: AppConstants.white,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
+        errorText: errorText,
         labelText: labelText,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(

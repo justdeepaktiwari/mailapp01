@@ -111,9 +111,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       buttonName: "Sign In",
                       onPressed: () async {
                         auth.login();
-                        final bool isLoggedin =
-                            await auth.getBoolValuesSF("isLoggedIn");
-                        if (isLoggedin) {
+                        if (auth.isLoggedIn) {
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
                             context,
