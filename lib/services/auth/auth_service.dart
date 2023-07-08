@@ -1,10 +1,10 @@
+import 'dart:convert';
+
 import 'package:mailapp01/api/api_endpoints.dart';
 import 'package:mailapp01/api/api_helpers.dart';
-import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/services/auth/login_body.dart';
 import 'package:mailapp01/services/auth/register_body.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
-import 'package:provider/provider.dart';
 
 class AuthService {
   Map<String, dynamic> registerBody = {
@@ -26,36 +26,66 @@ class AuthService {
     final response = await ApiHelper.post(
       ApiEndpoints.register,
       registerBody.bodyData(),
+      ApiHelper.guestRequestHeaders(),
     );
 
+    final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
-      return {
-        "success": true,
-        "messsage": "User Registered Sucess!",
-      };
+      await SharedPreferencesUtils.addStringToSF(
+        "token",
+        result["token"]["plainTextToken"],
+      );
+      return result;
     } else if (response.statusCode == 422) {
-      return {
-        "success": true,
-        "messsage": "User Registered Sucess!",
-      };
+      return result;
     }
 
     return {
       "success": false,
-      "messsage": "Error encountry try again!",
+      "message": "Error encountry try again!",
     };
   }
 
-  static Future<void> loginUser(LoginBody loginBody) async {
+  static Future<Map<String, dynamic>> loginUser(LoginBody loginBody) async {
     final response = await ApiHelper.post(
       ApiEndpoints.login,
       loginBody.bodyData(),
+      ApiHelper.guestRequestHeaders(),
     );
+
+    final result = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
+      await SharedPreferencesUtils.addStringToSF(
+        "token",
+        result["data"]["token"]["plainTextToken"],
+      );
+
+      return result;
+    } else if (response.statusCode == 401) {
+      return result;
+    }
+
+    return {
+      "success": false,
+      "message": "Error encounter try again!",
+    };
   }
 
-  static Future<void> logoutUser(String token) async {
-    final body = {"token": token};
-    final response = await ApiHelper.post(ApiEndpoints.logout, body);
+  static Future<Map<String, dynamic>> logoutUser() async {
+    final response = await ApiHelper.post(
+      ApiEndpoints.logout,
+      {},
+      ApiHelper.authRequestHeaders(),
+    );
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      SharedPreferencesUtils.removeValue(["isLoggedin", "token"]);
+      return result;
+    } else {
+      return result;
+    }
   }
 }

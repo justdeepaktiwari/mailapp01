@@ -22,4 +22,11 @@ class SharedPreferencesUtils {
   static Future<void> addStringToSF(String key, String value) async {
     await _prefs.setString(key, value);
   }
+
+  static bool removeValue(List<String> keys) {
+    for (var element in keys) {
+      _prefs.remove(element);
+    }
+    return true;
+  }
 }

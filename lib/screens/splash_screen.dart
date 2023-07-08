@@ -20,6 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.checkLoggin();
+
     navigate(authProvider);
   }
 

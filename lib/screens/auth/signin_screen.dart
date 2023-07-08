@@ -1,9 +1,13 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signup_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
+import 'package:mailapp01/services/auth/auth_service.dart';
+import 'package:mailapp01/services/auth/login_body.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/button.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
 import 'package:mailapp01/widgets/text_field.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +22,12 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  bool _isValidEmail = false;
+  bool _isValidPassword = false;
+
+  String passwordError = "Enter valid valid password";
+  String emailError = "Enter valid Email";
+
   TextEditingController emailAddress = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -71,6 +81,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       editingController: emailAddress,
                       isPasswordType: false,
                       textInputType: TextInputType.emailAddress,
+                      errorText: _isValidEmail ? emailError : null,
                     ),
                     const SizedBox(
                       height: 20,
@@ -81,6 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       editingController: password,
                       isPasswordType: true,
                       textInputType: TextInputType.visiblePassword,
+                      errorText: _isValidPassword ? passwordError : null,
                     ),
                     const SizedBox(
                       height: 10,
@@ -110,7 +122,46 @@ class _SignInScreenState extends State<SignInScreen> {
                     ButtonWidget(
                       buttonName: "Sign In",
                       onPressed: () async {
-                        auth.login();
+                        _isValidEmail = !EmailValidator.validate(
+                          emailAddress.text,
+                        );
+                        emailError = "Enter valid Email";
+
+                        _isValidPassword = password.text.length < 6;
+                        passwordError = "Enter valid password";
+
+                        if (_isValidEmail || _isValidPassword) {
+                          setState(() {});
+                          return;
+                        }
+
+                        _showProcessingDialog();
+
+                        final response = await AuthService.loginUser(
+                          LoginBody(
+                            emailAddress.text,
+                            password.text,
+                          ),
+                        );
+
+                        if (response["success"]) {
+                          auth.login();
+                          showSuccessMessage(
+                            response["message"] ?? "Login Successfully!",
+                          );
+                        } else {
+                          _isValidPassword = true;
+                          passwordError = "Enter correct credentials";
+
+                          _isValidEmail = true;
+                          emailError = "Enter correct credentials";
+                          showErrorMessage(response["message"] ?? "");
+                          setState(() {});
+                        }
+
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pop();
+
                         if (auth.isLoggedIn) {
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
@@ -151,5 +202,31 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
       backgroundColor: AppConstants.primaryColor,
     );
+  }
+
+  void _showProcessingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

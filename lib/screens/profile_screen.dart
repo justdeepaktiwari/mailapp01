@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
+import 'package:mailapp01/services/auth/auth_service.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/constants.dart';
@@ -36,15 +38,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
                   child: Icon(Icons.logout, size: 28),
                 ),
-                onPressed: () {
-                  auth.logout();
-                  if (!auth.isLoggedIn) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignInScreen(),
-                      ),
-                    );
+                onPressed: () async {
+                  _showRegistrationDialog();
+                  final response = await AuthService.logoutUser();
+
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pop();
+                  if (response["success"] == true) {
+                    auth.logout();
+                    if (!auth.isLoggedIn) {
+                      setState(() {});
+                      showSuccessMessage(
+                        response["data"]["message"] ?? "Error in logout",
+                      );
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInScreen(),
+                        ),
+                      );
+                    }
+                  } else {
+                    showErrorMessage(response["message"] ?? "Error in logout");
                   }
                 },
               ),
@@ -127,5 +143,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  void _showRegistrationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

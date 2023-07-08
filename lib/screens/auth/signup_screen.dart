@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
+import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/services/auth/auth_service.dart';
 import 'package:mailapp01/services/auth/register_body.dart';
 import 'package:mailapp01/utils/constants.dart';
@@ -149,6 +152,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _isValidEmail = !EmailValidator.validate(
                           emailAddress.text,
                         );
+                        phoneError = "Enter valid phone number";
+                        emailError = "Enter valid Email";
 
                         _isValidPassword = password.text.length < 6;
                         _isValidCnfPassword =
@@ -181,10 +186,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         if (response["success"]) {
                           auth.login();
-                        } else {}
+                          showSuccessMessage(response["message"] ??
+                              "Created Account Successfully!");
+                        } else {
+                          setState(() {
+                            if (response["errors"]["email"] != null) {
+                              _isValidEmail = true;
+                              emailError = response["errors"]["email"][0];
+                            }
+
+                            if (response["errors"]["phone"] != null) {
+                              _isValidPhone = true;
+                              phoneError = response["errors"]["phone"][0];
+                            }
+                          });
+                          showErrorMessage(response["message"] ?? "");
+                        }
 
                         // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
+
+                        if (auth.isLoggedIn) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          );
+                        }
                       },
                     ),
                     const SizedBox(
@@ -225,5 +255,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         return const ProcessingDialog();
       },
     );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
