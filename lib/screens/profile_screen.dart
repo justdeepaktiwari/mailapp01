@@ -41,7 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () async {
                   _showRegistrationDialog();
                   final response = await AuthService.logoutUser();
-
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                   if (response["success"] == true) {
@@ -60,6 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     }
                   } else {
+                    setState(() {});
                     showErrorMessage(response["message"] ?? "Error in logout");
                   }
                 },

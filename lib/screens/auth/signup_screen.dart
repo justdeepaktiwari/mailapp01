@@ -171,7 +171,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           setState(() {});
                           return;
                         }
-
                         _showRegistrationDialog();
 
                         final response = await AuthService.registerUser(

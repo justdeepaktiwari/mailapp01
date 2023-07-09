@@ -7,19 +7,6 @@ import 'package:mailapp01/services/auth/register_body.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class AuthService {
-  Map<String, dynamic> registerBody = {
-    "name": null,
-    "email": null,
-    "phone_number": null,
-    "password": null,
-    "password_confirmation": null,
-  };
-
-  Map<String, dynamic> loginBody = {
-    "email": null,
-    "password": null,
-  };
-
   static Future<Map<String, dynamic>> registerUser(
     RegisterBody registerBody,
   ) async {
@@ -30,12 +17,17 @@ class AuthService {
     );
 
     final result = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
-      await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
       await SharedPreferencesUtils.addStringToSF(
         "token",
-        result["token"]["plainTextToken"],
+        result["data"]["token"]["plainTextToken"],
       );
+      if (result["data"]["token"]["plainTextToken"] != null) {
+        await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
+        await SharedPreferencesUtils.addIntToSF(
+            "userId", result["data"]["user"]["id"]);
+      }
       return result;
     } else if (response.statusCode == 422) {
       return result;
@@ -57,12 +49,15 @@ class AuthService {
     final result = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
       await SharedPreferencesUtils.addStringToSF(
         "token",
         result["data"]["token"]["plainTextToken"],
       );
-
+      if (result["data"]["token"]["plainTextToken"] != null) {
+        await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
+        await SharedPreferencesUtils.addIntToSF(
+            "userId", result["data"]["user"]["id"]);
+      }
       return result;
     } else if (response.statusCode == 401) {
       return result;
@@ -82,9 +77,20 @@ class AuthService {
     );
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      SharedPreferencesUtils.removeValue(["isLoggedin", "token"]);
+      SharedPreferencesUtils.removeValue([
+        "isLoggedin",
+        "token",
+        "userId",
+      ]);
       return result;
     } else {
+      if (SharedPreferencesUtils.removeValue([
+        "isLoggedin",
+        "token",
+        "userId",
+      ])) {
+        return {"success": true, "message": "Logout successfully!"};
+      }
       return result;
     }
   }

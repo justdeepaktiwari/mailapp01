@@ -7,6 +7,14 @@ class SharedPreferencesUtils {
     _prefs = await SharedPreferences.getInstance();
   }
 
+  static int getIntValuesSF(String key) {
+    return _prefs.getInt(key) ?? 0;
+  }
+
+  static Future<void> addIntToSF(String key, int value) async {
+    await _prefs.setInt(key, value);
+  }
+
   static bool getBoolValuesSF(String key) {
     return _prefs.getBool(key) ?? false;
   }
