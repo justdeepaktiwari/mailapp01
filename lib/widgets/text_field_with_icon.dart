@@ -5,15 +5,21 @@ import 'package:mailapp01/utils/constants.dart';
 class TextFieldIconWidget extends StatelessWidget {
   final String labelText;
   final bool isPasswordType;
+
+  final String? errorText;
+
   TextEditingController editingController;
   TextInputType textInputType;
 
+  final bool isNotUpdatedField;
   TextFieldIconWidget({
     super.key,
     required this.labelText,
     required this.editingController,
     required this.isPasswordType,
     required this.textInputType,
+    this.isNotUpdatedField = false,
+    required this.errorText,
   });
 
   @override
@@ -23,16 +29,22 @@ class TextFieldIconWidget extends StatelessWidget {
       obscureText: isPasswordType,
       enableSuggestions: true,
       autocorrect: true,
+      enabled: isNotUpdatedField,
       keyboardType: textInputType,
-      style: const TextStyle(color: AppConstants.appColor),
+      style: const TextStyle(
+        color: AppConstants.white,
+      ),
       decoration: InputDecoration(
-        suffixIcon: const Icon(Icons.edit, color: AppConstants.appColor),
+        suffixIcon: isNotUpdatedField
+            ? const Icon(Icons.edit, color: AppConstants.appColor)
+            : null,
         labelStyle: const TextStyle(
           color: AppConstants.white,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
         labelText: labelText,
+        errorText: errorText,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -52,6 +64,13 @@ class TextFieldIconWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(
             color: AppConstants.appColor,
+            width: 2,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Colors.grey,
             width: 2,
           ),
         ),

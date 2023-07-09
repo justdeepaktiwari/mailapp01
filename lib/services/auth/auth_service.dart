@@ -26,7 +26,20 @@ class AuthService {
       if (result["data"]["token"]["plainTextToken"] != null) {
         await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
         await SharedPreferencesUtils.addIntToSF(
-            "userId", result["data"]["user"]["id"]);
+          "userId",
+          result["data"]["user"]["id"],
+        );
+        String userInfoEncoded = jsonEncode({
+          "name": result["data"]["user"]["name"],
+          "phone": result["data"]["user"]["phone"],
+          "email": result["data"]["user"]["email"],
+          "push": result["data"]["user"]["push_notification"],
+          "sms": result["data"]["user"]["sms_notification"],
+        });
+        await SharedPreferencesUtils.addStringToSF(
+          "userInfo",
+          userInfoEncoded,
+        );
       }
       return result;
     } else if (response.statusCode == 422) {
@@ -53,10 +66,24 @@ class AuthService {
         "token",
         result["data"]["token"]["plainTextToken"],
       );
+
       if (result["data"]["token"]["plainTextToken"] != null) {
         await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
         await SharedPreferencesUtils.addIntToSF(
-            "userId", result["data"]["user"]["id"]);
+          "userId",
+          result["data"]["user"]["id"],
+        );
+        String userInfoEncoded = jsonEncode({
+          "name": result["data"]["user"]["name"],
+          "phone": result["data"]["user"]["phone"],
+          "email": result["data"]["user"]["email"],
+          "push": result["data"]["user"]["push_notification"],
+          "sms": result["data"]["user"]["sms_notification"],
+        });
+        await SharedPreferencesUtils.addStringToSF(
+          "userInfo",
+          userInfoEncoded,
+        );
       }
       return result;
     } else if (response.statusCode == 401) {

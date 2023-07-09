@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mailapp01/services/complex/complex_body.dart';
+import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/text_field.dart';
@@ -13,9 +16,13 @@ class RequestComplex extends StatefulWidget {
 }
 
 class _RequestComplexState extends State<RequestComplex> {
+  bool complexNameError = false;
+  bool complexLocationError = false;
+
   TextEditingController complexName = TextEditingController();
   TextEditingController complexLocation = TextEditingController();
   TextEditingController notes = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +65,7 @@ class _RequestComplexState extends State<RequestComplex> {
               editingController: complexName,
               isPasswordType: false,
               textInputType: TextInputType.text,
+              errorText: complexNameError ? "Complex name required" : null,
             ),
             const SizedBox(
               height: 20,
@@ -67,7 +75,9 @@ class _RequestComplexState extends State<RequestComplex> {
               labelText: "Complex Location",
               editingController: complexLocation,
               isPasswordType: false,
-              textInputType: TextInputType.phone,
+              textInputType: TextInputType.multiline,
+              errorText:
+                  complexLocationError ? "Complex location required" : null,
             ),
             const SizedBox(
               height: 20,
@@ -77,7 +87,9 @@ class _RequestComplexState extends State<RequestComplex> {
               labelText: "Notes",
               editingController: notes,
               isPasswordType: false,
-              textInputType: TextInputType.emailAddress,
+              textInputType: TextInputType.multiline,
+              minLines: 2,
+              maxLines: 5,
             ),
             const SizedBox(
               height: 20,
@@ -93,7 +105,45 @@ class _RequestComplexState extends State<RequestComplex> {
             ),
             ButtonWidget(
               buttonName: "Request complex",
-              onPressed: () {},
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+
+                complexNameError = complexName.text == '' ? true : false;
+                complexLocationError =
+                    complexLocation.text == '' ? true : false;
+
+                if (complexLocationError || complexNameError) {
+                  setState(() {});
+                  return;
+                }
+
+                _showProcessingDialog();
+
+                final response = await ComplexService.requestComplex(
+                  ComplexBody(
+                    name: complexName.text,
+                    complexLocation: complexLocation.text,
+                    notes: notes.text,
+                  ),
+                );
+
+                complexName.text = '';
+                complexLocation.text = '';
+                notes.text = '';
+
+                if (response["success"]) {
+                  showSuccessMessage(
+                    response["message"] ?? "Successfully requested!",
+                  );
+                } else {
+                  showErrorMessage(
+                    response["message"] ?? "Error in requesting complex",
+                  );
+                }
+                setState(() {});
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pop();
+              },
             ),
             const SizedBox(
               height: 50,
@@ -103,5 +153,31 @@ class _RequestComplexState extends State<RequestComplex> {
         ),
       ),
     );
+  }
+
+  void _showProcessingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

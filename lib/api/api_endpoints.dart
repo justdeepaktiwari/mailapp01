@@ -6,7 +6,7 @@ class ApiEndpoints {
   static const String login = '/login';
   static const String register = '/register';
   static const String logout = '/logout';
-  static String profileUpdate = 'users/$userId/update';
+  static String profileUpdate = '/users/$userId/update';
   static const String complexRequest = '/complexes/request';
 
   static int userId = SharedPreferencesUtils.getIntValuesSF("userId");

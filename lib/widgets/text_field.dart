@@ -7,6 +7,10 @@ class TextFieldWidget extends StatelessWidget {
 
   final String labelText;
   final bool isPasswordType;
+
+  final int? minLines;
+  final int? maxLines;
+
   TextEditingController editingController;
   TextInputType textInputType;
 
@@ -17,6 +21,8 @@ class TextFieldWidget extends StatelessWidget {
     required this.isPasswordType,
     required this.textInputType,
     this.errorText,
+    this.minLines,
+    this.maxLines,
   });
 
   @override
@@ -27,6 +33,8 @@ class TextFieldWidget extends StatelessWidget {
       enableSuggestions: true,
       autocorrect: true,
       keyboardType: textInputType,
+      minLines: minLines,
+      maxLines: maxLines,
       style: const TextStyle(color: AppConstants.white),
       decoration: InputDecoration(
         labelStyle: const TextStyle(

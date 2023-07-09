@@ -8,7 +8,6 @@ import 'package:mailapp01/providers/auth_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesUtils.init();
-
   runApp(const MyApp());
 }
 
