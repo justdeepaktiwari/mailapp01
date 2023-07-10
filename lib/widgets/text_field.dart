@@ -33,8 +33,6 @@ class TextFieldWidget extends StatelessWidget {
       enableSuggestions: true,
       autocorrect: true,
       keyboardType: textInputType,
-      minLines: minLines,
-      maxLines: maxLines,
       style: const TextStyle(color: AppConstants.white),
       decoration: InputDecoration(
         labelStyle: const TextStyle(

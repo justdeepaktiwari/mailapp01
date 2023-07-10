@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mailapp01/services/complex/complex_body.dart';
+import 'package:mailapp01/services/complex/request_body.dart';
 import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
@@ -120,7 +120,7 @@ class _RequestComplexState extends State<RequestComplex> {
                 _showProcessingDialog();
 
                 final response = await ComplexService.requestComplex(
-                  ComplexBody(
+                  RequestComplexBody(
                     name: complexName.text,
                     complexLocation: complexLocation.text,
                     notes: notes.text,

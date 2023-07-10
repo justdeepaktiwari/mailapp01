@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:mailapp01/api/api_endpoints.dart';
 import 'package:mailapp01/api/api_helpers.dart';
-import 'package:mailapp01/services/complex/complex_body.dart';
+import 'package:mailapp01/models/complexs.dart';
+import 'package:mailapp01/services/complex/request_body.dart';
 
 class ComplexService {
   static Future<Map<String, dynamic>> requestComplex(
-    ComplexBody complexBody,
+    RequestComplexBody complexBody,
   ) async {
     final response = await ApiHelper.post(
       ApiEndpoints.complexRequest,
@@ -24,5 +25,24 @@ class ComplexService {
       "success": false,
       "message": "Error in request complex!",
     };
+  }
+
+  static Future<List<ComplexList>> listComplex() async {
+    final response = await ApiHelper.get(
+      ApiEndpoints.listComplex,
+      ApiHelper.authRequestHeaders(),
+    );
+
+    final json = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final result = json["data"]["complexes"] as List<dynamic>;
+      final complexs = result.map((e) {
+        return ComplexList.fromMap(e);
+      }).toList();
+
+      return complexs;
+    } else {
+      return [];
+    }
   }
 }

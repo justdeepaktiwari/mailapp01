@@ -1,9 +1,9 @@
-class ComplexBody {
+class RequestComplexBody {
   final String name;
   final String complexLocation;
   final String notes;
 
-  ComplexBody({
+  RequestComplexBody({
     required this.name,
     required this.complexLocation,
     this.notes = '',

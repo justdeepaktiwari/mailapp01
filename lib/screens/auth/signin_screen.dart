@@ -93,6 +93,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       isPasswordType: true,
                       textInputType: TextInputType.visiblePassword,
                       errorText: _isValidPassword ? passwordError : null,
+                      minLines: null,
+                      maxLines: null,
                     ),
                     const SizedBox(
                       height: 10,

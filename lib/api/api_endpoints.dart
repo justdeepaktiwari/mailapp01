@@ -8,6 +8,7 @@ class ApiEndpoints {
   static const String logout = '/logout';
   static String profileUpdate = '/users/$userId/update';
 
+  static String listComplex = '/complexes/$userId';
   static const String complexRequest = '/complexes/request';
   static const String joinComplex = '/complexes/add';
   static const String removeComplex = '/complexes/remove';
