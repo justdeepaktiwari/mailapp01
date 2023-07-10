@@ -8,9 +8,13 @@ import 'package:mailapp01/widgets/text_field.dart';
 // ignore: must_be_immutable
 class RequestComplexCardWidget extends StatelessWidget {
   TextEditingController complexId;
+
+  VoidCallback onTap;
+
   RequestComplexCardWidget({
     super.key,
     required this.complexId,
+    required this.onTap,
   });
 
   @override
@@ -63,7 +67,7 @@ class RequestComplexCardWidget extends StatelessWidget {
                     width: double.infinity,
                   ),
                   ButtonWidget(
-                    onPressed: () {},
+                    onPressed: onTap,
                     buttonName: "Join",
                   )
                 ],

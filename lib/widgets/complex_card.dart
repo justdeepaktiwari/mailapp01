@@ -4,11 +4,12 @@ import 'package:mailapp01/utils/constants.dart';
 class ComplexCardWidget extends StatelessWidget {
   final String complexName;
   final String timeNotification;
-
-  const ComplexCardWidget({
+  VoidCallback deleteComplex;
+  ComplexCardWidget({
     super.key,
     required this.complexName,
     required this.timeNotification,
+    required this.deleteComplex,
   });
 
   @override
@@ -51,9 +52,12 @@ class ComplexCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const Icon(
-              Icons.delete,
-              color: AppConstants.danger,
+            GestureDetector(
+              onTap: deleteComplex,
+              child: const Icon(
+                Icons.delete,
+                color: AppConstants.danger,
+              ),
             )
           ],
         ),

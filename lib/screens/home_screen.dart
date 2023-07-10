@@ -6,9 +6,12 @@ import 'package:mailapp01/screens/complex/request_complex.dart';
 import 'package:mailapp01/screens/notifications_screen.dart';
 import 'package:mailapp01/screens/profile_screen.dart';
 import 'package:mailapp01/screens/setting_screen.dart';
+import 'package:mailapp01/services/complex/complex_services.dart';
+import 'package:mailapp01/services/complex/join_body.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/bottom_navigation.dart';
 import 'package:mailapp01/widgets/button.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
 import 'package:mailapp01/widgets/text_field.dart';
 import 'package:provider/provider.dart';
@@ -130,7 +133,37 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: double.infinity,
                               ),
                               ButtonWidget(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  if (complexId.text == '') {
+                                    return;
+                                  }
+
+                                  _showProcessingDialog();
+                                  final response =
+                                      await ComplexService.joinComplex(
+                                    JoinComplexBody(
+                                      complexCode: complexId.text,
+                                      userId: auth.userId.toString(),
+                                    ),
+                                  );
+
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pop();
+
+                                  if (response["success"]) {
+                                    auth.checkLoggin();
+                                    showSuccessMessage(
+                                      response["message"] ??
+                                          "You joined complex!",
+                                    );
+                                    setState(() {});
+                                    return;
+                                  }
+                                  showErrorMessage(
+                                    response["message"] ??
+                                        "Error in joining complex!",
+                                  );
+                                },
                                 buttonName: "Join",
                               ),
                               const SizedBox(
@@ -179,5 +212,31 @@ class _HomeScreenState extends State<HomeScreen> {
       screenHistory.add(_selectedIndex);
       _selectedIndex = index;
     });
+  }
+
+  void _showProcessingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

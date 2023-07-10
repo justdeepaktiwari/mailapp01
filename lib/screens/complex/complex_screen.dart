@@ -4,7 +4,6 @@ import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/complex_card.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
-import 'package:mailapp01/widgets/requestcard_complex.dart';
 
 class ComplexsScreen extends StatefulWidget {
   const ComplexsScreen({super.key});
@@ -56,10 +55,15 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
               SliverAnimatedList(
                 itemBuilder: (context, index, animation) {
                   final complex = listComplexs[index];
-                  return listComplexsLength > 1
+                  return listComplexsLength > 0
                       ? ComplexCardWidget(
                           complexName: complex.name,
                           timeNotification: complex.email,
+                          deleteComplex: () {
+                            final complexIdRemove = complex.id;
+
+                            print(complexIdRemove);
+                          },
                         )
                       : const Center(
                           child: Padding(
