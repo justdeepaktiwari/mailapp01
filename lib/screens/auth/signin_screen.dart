@@ -143,11 +143,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           LoginBody(
                             emailAddress.text,
                             password.text,
+                            "dummy",
                           ),
                         );
 
                         if (response["success"]) {
-                          auth.login();
+                          auth.checkLoggin();
                           showSuccessMessage(
                             response["message"] ?? "Login Successfully!",
                           );

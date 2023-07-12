@@ -2,6 +2,7 @@ import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class ApiEndpoints {
   static const String baseUrl = 'https://api.mailbx.app/api';
+  static int userId = SharedPreferencesUtils.getIntValuesSF("userId");
 
   static const String login = '/login';
   static const String register = '/register';
@@ -15,5 +16,5 @@ class ApiEndpoints {
 
   static String updateSetting = '/notifications/type/$userId/update';
 
-  static int userId = SharedPreferencesUtils.getIntValuesSF("userId");
+  static String listNotifications = '/notifications/$userId';
 }

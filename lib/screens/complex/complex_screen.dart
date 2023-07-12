@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/models/complexs.dart';
+import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/services/complex/complex_services.dart';
+import 'package:mailapp01/services/complex/remove_body.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/complex_card.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
+import 'package:provider/provider.dart';
 
 class ComplexsScreen extends StatefulWidget {
   const ComplexsScreen({super.key});
@@ -15,7 +19,6 @@ class ComplexsScreen extends StatefulWidget {
 class _ComplexsScreenState extends State<ComplexsScreen> {
   List<ComplexList> listComplexs = [];
   bool isLoading = true;
-  int listComplexsLength = 0;
   TextEditingController complexId = TextEditingController();
 
   @override
@@ -34,6 +37,12 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
+    if (auth.isRefresh) {
+      auth.refreshFalse();
+      isLoading = true;
+      listComplex();
+    }
     return Visibility(
       visible: isLoading,
       replacement: RefreshIndicator(
@@ -52,34 +61,61 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
                 elevation: 4,
                 toolbarHeight: 80,
               ),
-              SliverAnimatedList(
-                itemBuilder: (context, index, animation) {
-                  final complex = listComplexs[index];
-                  return listComplexsLength > 0
-                      ? ComplexCardWidget(
-                          complexName: complex.name,
-                          timeNotification: complex.email,
-                          deleteComplex: () {
-                            final complexIdRemove = complex.id;
-
-                            print(complexIdRemove);
-                          },
-                        )
-                      : const Center(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: Text(
-                              "No Complex Found!",
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.white,
-                              ),
-                            ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    final complex = listComplexs[index];
+                    return ComplexCardWidget(
+                      complexName: complex.name,
+                      timeNotification: complex.email,
+                      deleteComplex: () async {
+                        _showProcessingDialog();
+                        final response = await ComplexService.removeComplex(
+                          RemoveComplexBody(
+                            complexCode: complex.code,
+                            userId: auth.userId.toString(),
                           ),
                         );
-                },
-                initialItemCount: listComplexs.length,
-              )
+
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pop();
+
+                        if (response["success"]) {
+                          showSuccessMessage(
+                            response["message"] ?? "Complex removed!",
+                          );
+                          setState(() {
+                            isLoading = true;
+                          });
+                          listComplex();
+                          return;
+                        }
+                        showErrorMessage(
+                          response["message"] ?? "Error in removing complex!",
+                        );
+                      },
+                    );
+                  },
+                  childCount:
+                      listComplexs.length, // The number of items in the list
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: listComplexs.isEmpty
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: Text(
+                            "No Complex Found!",
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
+              ),
             ],
           ),
         ),
@@ -94,8 +130,33 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
     final response = await ComplexService.listComplex();
     setState(() {
       listComplexs = response;
-      listComplexsLength = listComplexs.length;
       isLoading = false;
     });
+  }
+
+  void _showProcessingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

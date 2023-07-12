@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/services/complex/join_body.dart';
+import 'package:mailapp01/services/notifications/notification_service.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/notification_card.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
@@ -18,71 +19,86 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
   bool isLoading = true;
-  List items = [];
+  List listNotification = [];
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
     TextEditingController complexId = TextEditingController();
 
-    return SafeArea(
-      child: items.isEmpty
-          ? RequestComplexCardWidget(
-              complexId: complexId,
-              onTap: () async {
-                if (complexId.text == '') {
-                  return;
-                }
+    return Visibility(
+      visible: isLoading,
+      replacement: RefreshIndicator(
+        onRefresh: listNotifications,
+        child: SafeArea(
+          child: listNotification.isEmpty
+              ? RequestComplexCardWidget(
+                  complexId: complexId,
+                  onTap: () async {
+                    if (complexId.text == '') {
+                      return;
+                    }
 
-                _showProcessingDialog();
-                final response = await ComplexService.joinComplex(
-                  JoinComplexBody(
-                    complexCode: complexId.text,
-                    userId: auth.userId.toString(),
-                  ),
-                );
+                    _showProcessingDialog();
+                    final response = await ComplexService.joinComplex(
+                      JoinComplexBody(
+                        complexCode: complexId.text,
+                        userId: auth.userId.toString(),
+                      ),
+                    );
 
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pop();
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
 
-                if (response["success"]) {
-                  auth.checkLoggin();
-                  showSuccessMessage(
-                    response["message"] ?? "You joined complex!",
-                  );
-                  setState(() {});
-                  return;
-                }
-                showErrorMessage(
-                  response["message"] ?? "Error in joining complex!",
-                );
-              },
-            )
-          : CustomScrollView(
-              slivers: [
-                const SliverAppBar(
-                  title: PageHeadingWidget(
-                    headingText: "NOTIFICATIONS",
-                  ),
-                  floating: true,
-                  pinned: true,
-                  snap: false,
-                  backgroundColor: AppConstants.primaryColor,
-                  elevation: 4,
-                  toolbarHeight: 80,
-                ),
-                SliverAnimatedList(
-                  itemBuilder: (context, index, animation) {
-                    return NotificationCardWidget(
-                      complexName: "Complex $index",
-                      mailInfo: "Mail is here",
-                      timeNotification: "1$index min ago",
+                    if (response["success"]) {
+                      showSuccessMessage(
+                        response["message"] ?? "You joined complex!",
+                      );
+                      setState(() {});
+                      return;
+                    }
+                    showErrorMessage(
+                      response["message"] ?? "Error in joining complex!",
                     );
                   },
-                  initialItemCount: items.length,
                 )
-              ],
-            ),
+              : CustomScrollView(
+                  slivers: [
+                    const SliverAppBar(
+                      title: PageHeadingWidget(
+                        headingText: "NOTIFICATIONS",
+                      ),
+                      floating: true,
+                      pinned: true,
+                      snap: false,
+                      backgroundColor: AppConstants.primaryColor,
+                      elevation: 4,
+                      toolbarHeight: 80,
+                    ),
+                    SliverAnimatedList(
+                      itemBuilder: (context, index, animation) {
+                        return NotificationCardWidget(
+                          complexName: "Complex $index",
+                          mailInfo: "Mail is here",
+                          timeNotification: "1$index min ago",
+                        );
+                      },
+                      initialItemCount: listNotification.length,
+                    )
+                  ],
+                ),
+        ),
+      ),
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 
@@ -110,5 +126,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       backgroundColor: Colors.red,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<void> listNotifications() async {
+    final response = await NotificationService.listComplex();
+    setState(() {
+      listNotification = response;
+      isLoading = false;
+    });
   }
 }

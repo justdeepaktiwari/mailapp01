@@ -147,16 +147,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
 
+                                  complexId.text = '';
+
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pop();
+
                                   // ignore: use_build_context_synchronously
                                   Navigator.of(context).pop();
 
                                   if (response["success"]) {
                                     auth.checkLoggin();
+                                    complexId.text = '';
+                                    auth.refreshTrue();
+                                    setState(() {});
                                     showSuccessMessage(
                                       response["message"] ??
                                           "You joined complex!",
                                     );
-                                    setState(() {});
                                     return;
                                   }
                                   showErrorMessage(

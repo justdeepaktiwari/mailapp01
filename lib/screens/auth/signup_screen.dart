@@ -178,11 +178,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             phone.text,
                             password.text,
                             confirmPassword.text,
+                            "dummy",
                           ),
                         );
 
                         if (response["success"]) {
-                          auth.login();
+                          auth.checkLoggin();
                           showSuccessMessage(response["message"] ??
                               "Created Account Successfully!");
                         } else {

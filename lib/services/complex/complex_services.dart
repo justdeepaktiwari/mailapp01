@@ -4,6 +4,7 @@ import 'package:mailapp01/api/api_endpoints.dart';
 import 'package:mailapp01/api/api_helpers.dart';
 import 'package:mailapp01/models/complexs.dart';
 import 'package:mailapp01/services/complex/join_body.dart';
+import 'package:mailapp01/services/complex/remove_body.dart';
 import 'package:mailapp01/services/complex/request_body.dart';
 
 class ComplexService {
@@ -65,11 +66,11 @@ class ComplexService {
   }
 
   static Future<Map<String, dynamic>> removeComplex(
-    JoinComplexBody joinComplexBody,
+    RemoveComplexBody removeComplexBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.joinComplex,
-      joinComplexBody.bodyData(),
+      ApiEndpoints.removeComplex,
+      removeComplexBody.bodyData(),
       ApiHelper.authRequestHeaders(),
     );
 

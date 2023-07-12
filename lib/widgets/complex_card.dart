@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/utils/constants.dart';
 
+// ignore: must_be_immutable
 class ComplexCardWidget extends StatelessWidget {
   final String complexName;
   final String timeNotification;
