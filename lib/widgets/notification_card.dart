@@ -3,6 +3,7 @@ import 'package:mailapp01/utils/constants.dart';
 
 class NotificationCardWidget extends StatelessWidget {
   final String complexName;
+  final String title;
   final String mailInfo;
   final String timeNotification;
 
@@ -11,6 +12,7 @@ class NotificationCardWidget extends StatelessWidget {
     required this.complexName,
     required this.mailInfo,
     required this.timeNotification,
+    required this.title,
   });
 
   @override
@@ -44,9 +46,21 @@ class NotificationCardWidget extends StatelessWidget {
                   width: 0,
                 ),
                 Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: AppConstants.white,
+                  ),
+                ),
+                const SizedBox(
+                  height: 3,
+                  width: 0,
+                ),
+                Text(
                   mailInfo,
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: AppConstants.white,
                   ),

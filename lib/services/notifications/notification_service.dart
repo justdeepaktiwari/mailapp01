@@ -13,7 +13,7 @@ class NotificationService {
 
     final json = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      final result = json["data"]["complexes"] as List<dynamic>;
+      final result = json["data"]["notifications"] as List<dynamic>;
       final notifications = result.map((e) {
         return NotificationList.fromMap(e);
       }).toList();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/services/complex/join_body.dart';
+import 'package:mailapp01/services/datetime/humandate_services.dart';
 import 'package:mailapp01/services/notifications/notification_service.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/notification_card.dart';
@@ -26,6 +27,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     if (mounted) {
       super.setState(fn);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listNotifications();
   }
 
   @override
@@ -61,7 +68,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       showSuccessMessage(
                         response["message"] ?? "You joined complex!",
                       );
-                      setState(() {});
+                      setState(() {
+                        isLoading = true;
+                        listNotifications();
+                      });
                       return;
                     }
                     showErrorMessage(
@@ -82,16 +92,23 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       elevation: 4,
                       toolbarHeight: 80,
                     ),
-                    SliverAnimatedList(
-                      itemBuilder: (context, index, animation) {
-                        return NotificationCardWidget(
-                          complexName: "Complex $index",
-                          mailInfo: "Mail is here",
-                          timeNotification: "1$index min ago",
-                        );
-                      },
-                      initialItemCount: listNotification.length,
-                    )
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          final notification = listNotification[index];
+                          return NotificationCardWidget(
+                            complexName: notification.complexName,
+                            title: notification.title,
+                            mailInfo: notification.message,
+                            timeNotification: DateToHuman.getTimeDifference(
+                              notification.date,
+                            ),
+                          );
+                        },
+                        childCount: listNotification
+                            .length, // The number of items in the list
+                      ),
+                    ),
                   ],
                 ),
         ),

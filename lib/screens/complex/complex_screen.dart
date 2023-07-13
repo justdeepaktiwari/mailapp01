@@ -69,29 +69,79 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
                       complexName: complex.name,
                       timeNotification: complex.email,
                       deleteComplex: () async {
-                        _showProcessingDialog();
-                        final response = await ComplexService.removeComplex(
-                          RemoveComplexBody(
-                            complexCode: complex.code,
-                            userId: auth.userId.toString(),
-                          ),
-                        );
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContex) {
+                            return AlertDialog(
+                              backgroundColor: AppConstants.primaryColor,
+                              title: const Text(
+                                'Confirmation',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              content: const Text(
+                                'Are you sure you want to delete?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    // Perform delete operation
+                                    Navigator.of(dialogContex).pop();
 
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context).pop();
+                                    _showProcessingDialog();
+                                    final response =
+                                        await ComplexService.removeComplex(
+                                      RemoveComplexBody(
+                                        complexCode: complex.code,
+                                        userId: auth.userId.toString(),
+                                      ),
+                                    );
 
-                        if (response["success"]) {
-                          showSuccessMessage(
-                            response["message"] ?? "Complex removed!",
-                          );
-                          setState(() {
-                            isLoading = true;
-                          });
-                          listComplex();
-                          return;
-                        }
-                        showErrorMessage(
-                          response["message"] ?? "Error in removing complex!",
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.of(context).pop();
+
+                                    if (response["success"]) {
+                                      showSuccessMessage(
+                                        response["message"] ??
+                                            "Complex removed!",
+                                      );
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      listComplex();
+                                      return;
+                                    }
+                                    showErrorMessage(
+                                      response["message"] ??
+                                          "Error in removing complex!",
+                                    );
+                                  },
+                                  child: const Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    // Cancel operation
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text(
+                                    'No',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         );
                       },
                     );

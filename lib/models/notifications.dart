@@ -1,19 +1,23 @@
 class NotificationList {
+  final String complexName;
   final String title;
   final String message;
-  final String date;
+  final DateTime date;
 
   NotificationList({
+    required this.complexName,
     required this.title,
     required this.message,
     required this.date,
   });
 
   factory NotificationList.fromMap(Map<String, dynamic> apiData) {
+    final date = DateTime.parse(apiData["created_at"]);
     return NotificationList(
+      complexName: apiData["complex_name"],
       title: apiData["title"],
       message: apiData["message"],
-      date: apiData["created_at"],
+      date: date,
     );
   }
 }
