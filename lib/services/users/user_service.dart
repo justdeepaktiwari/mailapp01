@@ -11,7 +11,7 @@ class UserService {
     ProfileBody profileBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.profileUpdate,
+      ApiEndpoints().profileUpdate,
       profileBody.bodyData(),
       ApiHelper.authRequestHeaders(),
     );
@@ -41,7 +41,7 @@ class UserService {
     SettingBody settingBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.updateSetting,
+      ApiEndpoints().updateSetting,
       settingBody.bodyData(),
       ApiHelper.authRequestHeaders(),
     );

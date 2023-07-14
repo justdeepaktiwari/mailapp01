@@ -47,128 +47,125 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
       visible: isLoading,
       replacement: RefreshIndicator(
         onRefresh: listComplex,
-        child: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                title: PageHeadingWidget(
-                  headingText: "COMPLEXES",
+        child: listComplexs.isEmpty
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Text(
+                    "No Complex Found!",
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                floating: true,
-                pinned: true,
-                snap: false,
-                backgroundColor: AppConstants.primaryColor,
-                elevation: 4,
-                toolbarHeight: 80,
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    final complex = listComplexs[index];
-                    return ComplexCardWidget(
-                      complexName: complex.name,
-                      timeNotification: complex.email,
-                      deleteComplex: () async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContex) {
-                            return AlertDialog(
-                              backgroundColor: AppConstants.primaryColor,
-                              title: const Text(
-                                'Confirmation',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              content: const Text(
-                                'Are you sure you want to delete?',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () async {
-                                    // Perform delete operation
-                                    Navigator.of(dialogContex).pop();
-
-                                    _showProcessingDialog();
-                                    final response =
-                                        await ComplexService.removeComplex(
-                                      RemoveComplexBody(
-                                        complexCode: complex.code,
-                                        userId: auth.userId.toString(),
+              )
+            : SafeArea(
+                child: CustomScrollView(
+                  slivers: [
+                    const SliverAppBar(
+                      title: PageHeadingWidget(
+                        headingText: "COMPLEXES",
+                      ),
+                      floating: true,
+                      pinned: true,
+                      snap: false,
+                      backgroundColor: AppConstants.primaryColor,
+                      elevation: 4,
+                      toolbarHeight: 80,
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          final complex = listComplexs[index];
+                          return ComplexCardWidget(
+                            complexName: complex.name,
+                            timeNotification: complex.email,
+                            deleteComplex: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogueContext) {
+                                  return AlertDialog(
+                                    backgroundColor: AppConstants.primaryColor,
+                                    title: const Text(
+                                      'Confirmation',
+                                      style: TextStyle(
+                                        color: Colors.white,
                                       ),
-                                    );
-
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.of(context).pop();
-
-                                    if (response["success"]) {
-                                      showSuccessMessage(
-                                        response["message"] ??
-                                            "Complex removed!",
-                                      );
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      listComplex();
-                                      return;
-                                    }
-                                    showErrorMessage(
-                                      response["message"] ??
-                                          "Error in removing complex!",
-                                    );
-                                  },
-                                  child: const Text(
-                                    'Yes',
-                                    style: TextStyle(
-                                      color: Colors.white,
                                     ),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    // Cancel operation
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    'No',
-                                    style: TextStyle(
-                                      color: Colors.white,
+                                    content: const Text(
+                                      'Are you sure you want to proceed?',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
-                  childCount:
-                      listComplexs.length, // The number of items in the list
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text(
+                                          'Yes',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          // Call your function to proceed here.
+                                          Navigator.of(dialogueContext).pop();
+                                          _showProcessingDialog();
+                                          final response = await ComplexService
+                                              .removeComplex(
+                                            RemoveComplexBody(
+                                              complexCode: complex.code,
+                                              userId: auth.userId.toString(),
+                                            ),
+                                          );
+
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.of(context).pop();
+
+                                          if (response["success"]) {
+                                            auth.checkLoggin();
+                                            showSuccessMessage(
+                                              response["message"] ??
+                                                  "Complex removed!",
+                                            );
+                                            setState(() {
+                                              isLoading = true;
+                                            });
+                                            listComplex();
+                                            return;
+                                          }
+                                          showErrorMessage(
+                                            response["message"] ??
+                                                "Error in removing complex!",
+                                          );
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          'No',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // Do something when the "No" button is pressed.
+                                          Navigator.of(dialogueContext).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                        childCount: listComplexs
+                            .length, // The number of items in the list
+                      ),
+                    )
+                  ],
                 ),
               ),
-              SliverToBoxAdapter(
-                child: listComplexs.isEmpty
-                    ? const Center(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                          child: Text(
-                            "No Complex Found!",
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      )
-                    : null,
-              ),
-            ],
-          ),
-        ),
       ),
       child: const Center(
         child: CircularProgressIndicator(),

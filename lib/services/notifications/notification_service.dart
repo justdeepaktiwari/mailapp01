@@ -7,7 +7,7 @@ import 'package:mailapp01/models/notifications.dart';
 class NotificationService {
   static Future<List<NotificationList>> listComplex() async {
     final response = await ApiHelper.get(
-      ApiEndpoints.listNotifications,
+      ApiEndpoints().listNotifications,
       ApiHelper.authRequestHeaders(),
     );
 

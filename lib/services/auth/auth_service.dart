@@ -11,7 +11,7 @@ class AuthService {
     RegisterBody registerBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.register,
+      ApiEndpoints().register,
       registerBody.bodyData(),
       ApiHelper.guestRequestHeaders(),
     );
@@ -22,6 +22,10 @@ class AuthService {
       await SharedPreferencesUtils.addStringToSF(
         "token",
         result["data"]["token"]["plainTextToken"],
+      );
+      await SharedPreferencesUtils.addIntToSF(
+        "complexCount",
+        result["data"]["complex_count"] ?? 0,
       );
       if (result["data"]["token"]["plainTextToken"] != null) {
         await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
@@ -54,7 +58,7 @@ class AuthService {
 
   static Future<Map<String, dynamic>> loginUser(LoginBody loginBody) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.login,
+      ApiEndpoints().login,
       loginBody.bodyData(),
       ApiHelper.guestRequestHeaders(),
     );
@@ -66,7 +70,10 @@ class AuthService {
         "token",
         result["data"]["token"]["plainTextToken"],
       );
-
+      await SharedPreferencesUtils.addIntToSF(
+        "complexCount",
+        result["data"]["complex_count"] ?? 0,
+      );
       if (result["data"]["token"]["plainTextToken"] != null) {
         await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
         await SharedPreferencesUtils.addIntToSF(
@@ -98,7 +105,7 @@ class AuthService {
 
   static Future<Map<String, dynamic>> logoutUser() async {
     final response = await ApiHelper.post(
-      ApiEndpoints.logout,
+      ApiEndpoints().logout,
       {},
       ApiHelper.authRequestHeaders(),
     );
@@ -108,6 +115,8 @@ class AuthService {
         "isLoggedin",
         "token",
         "userId",
+        "userInfo",
+        "complexCount",
       ]);
       return result;
     } else {
@@ -115,6 +124,8 @@ class AuthService {
         "isLoggedin",
         "token",
         "userId",
+        "userInfo",
+        "complexCount",
       ])) {
         return {"success": true, "message": "Logout successfully!"};
       }

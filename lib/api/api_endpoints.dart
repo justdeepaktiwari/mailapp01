@@ -1,20 +1,20 @@
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class ApiEndpoints {
-  static const String baseUrl = 'https://api.mailbx.app/api';
-  static int userId = SharedPreferencesUtils.getIntValuesSF("userId");
+  int? userId = SharedPreferencesUtils.getIntValuesSF("userId");
 
-  static const String login = '/login';
-  static const String register = '/register';
-  static const String logout = '/logout';
-  static String profileUpdate = '/users/$userId/update';
+  String get baseUrl => 'https://api.mailbx.app/api';
 
-  static String listComplex = '/complexes/$userId';
-  static const String complexRequest = '/complexes/request';
-  static const String joinComplex = '/complexes/add';
-  static const String removeComplex = '/complexes/remove';
+  String get login => '/login';
+  String get register => '/register';
+  String get logout => '/logout';
 
-  static String updateSetting = '/notifications/type/$userId/update';
+  String get complexRequest => '/complexes/request';
+  String get joinComplex => '/complexes/add';
+  String get removeComplex => '/complexes/remove';
 
-  static String listNotifications = '/notifications/$userId';
+  String get updateSetting => '/notifications/type/$userId/update';
+  String get listNotifications => '/notifications/$userId';
+  String get profileUpdate => '/users/$userId/update';
+  String get listComplex => '/complexes/$userId';
 }

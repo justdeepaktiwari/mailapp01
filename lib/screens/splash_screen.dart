@@ -48,7 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                  'assets/images/applogo.png'), // Path to your splash screen image file
+                'assets/images/applogo.png',
+              ),
               fit: BoxFit.cover,
             ),
           ),

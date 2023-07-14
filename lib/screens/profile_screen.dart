@@ -57,6 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
                   if (response["success"] == true) {
+                    auth.checkLoggin();
                     auth.logout();
                     if (!auth.isLoggedIn) {
                       setState(() {});

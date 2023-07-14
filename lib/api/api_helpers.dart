@@ -7,7 +7,7 @@ import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class ApiHelper {
   static Uri parsedUrl(String endPoint) {
-    return Uri.parse(ApiEndpoints.baseUrl + endPoint);
+    return Uri.parse(ApiEndpoints().baseUrl + endPoint);
   }
 
   static Map<String, String> guestRequestHeaders() {

@@ -6,13 +6,14 @@ import 'package:mailapp01/models/complexs.dart';
 import 'package:mailapp01/services/complex/join_body.dart';
 import 'package:mailapp01/services/complex/remove_body.dart';
 import 'package:mailapp01/services/complex/request_body.dart';
+import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class ComplexService {
   static Future<Map<String, dynamic>> requestComplex(
     RequestComplexBody complexBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.complexRequest,
+      ApiEndpoints().complexRequest,
       complexBody.bodyData(),
       ApiHelper.authRequestHeaders(),
     );
@@ -31,7 +32,7 @@ class ComplexService {
 
   static Future<List<ComplexList>> listComplex() async {
     final response = await ApiHelper.get(
-      ApiEndpoints.listComplex,
+      ApiEndpoints().listComplex,
       ApiHelper.authRequestHeaders(),
     );
 
@@ -52,13 +53,17 @@ class ComplexService {
     JoinComplexBody joinComplexBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.joinComplex,
+      ApiEndpoints().joinComplex,
       joinComplexBody.bodyData(),
       ApiHelper.authRequestHeaders(),
     );
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      await SharedPreferencesUtils.addIntToSF(
+        "complexCount",
+        result["data"]["complexes"].length,
+      );
       return result;
     } else {
       return result;
@@ -69,13 +74,17 @@ class ComplexService {
     RemoveComplexBody removeComplexBody,
   ) async {
     final response = await ApiHelper.post(
-      ApiEndpoints.removeComplex,
+      ApiEndpoints().removeComplex,
       removeComplexBody.bodyData(),
       ApiHelper.authRequestHeaders(),
     );
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      await SharedPreferencesUtils.addIntToSF(
+        "complexCount",
+        result["data"]["complexes"].length,
+      );
       return result;
     } else {
       return result;

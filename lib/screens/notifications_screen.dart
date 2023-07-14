@@ -45,7 +45,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       replacement: RefreshIndicator(
         onRefresh: listNotifications,
         child: SafeArea(
-          child: listNotification.isEmpty
+          child: auth.complexCount! == 0
               ? RequestComplexCardWidget(
                   complexId: complexId,
                   onTap: () async {
@@ -79,38 +79,51 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     );
                   },
                 )
-              : CustomScrollView(
-                  slivers: [
-                    const SliverAppBar(
-                      title: PageHeadingWidget(
-                        headingText: "NOTIFICATIONS",
+              : (listNotification.isEmpty
+                  ? const Center(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: Text(
+                          "No Notification Found!",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                      floating: true,
-                      pinned: true,
-                      snap: false,
-                      backgroundColor: AppConstants.primaryColor,
-                      elevation: 4,
-                      toolbarHeight: 80,
-                    ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          final notification = listNotification[index];
-                          return NotificationCardWidget(
-                            complexName: notification.complexName,
-                            title: notification.title,
-                            mailInfo: notification.message,
-                            timeNotification: DateToHuman.getTimeDifference(
-                              notification.date,
-                            ),
-                          );
-                        },
-                        childCount: listNotification
-                            .length, // The number of items in the list
-                      ),
-                    ),
-                  ],
-                ),
+                    )
+                  : CustomScrollView(
+                      slivers: [
+                        const SliverAppBar(
+                          title: PageHeadingWidget(
+                            headingText: "NOTIFICATIONS",
+                          ),
+                          floating: true,
+                          pinned: true,
+                          snap: false,
+                          backgroundColor: AppConstants.primaryColor,
+                          elevation: 4,
+                          toolbarHeight: 80,
+                        ),
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              final notification = listNotification[index];
+                              return NotificationCardWidget(
+                                complexName: notification.complexName,
+                                title: notification.title,
+                                mailInfo: notification.message,
+                                timeNotification: DateToHuman.getTimeDifference(
+                                  notification.date,
+                                ),
+                              );
+                            },
+                            childCount: listNotification
+                                .length, // The number of items in the list
+                          ),
+                        ),
+                      ],
+                    )),
         ),
       ),
       child: const Center(
