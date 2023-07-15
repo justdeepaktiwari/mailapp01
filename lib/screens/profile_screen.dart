@@ -73,8 +73,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     }
                   } else {
+                    auth.checkLoggin();
+                    auth.logout();
                     setState(() {});
-                    showErrorMessage(response["message"] ?? "Error in logout");
+                    if (!auth.isLoggedIn) {
+                      setState(() {});
+                      showSuccessMessage(
+                        response["data"]["message"] ?? "Error in logout",
+                      );
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInScreen(),
+                        ),
+                      );
+                    }
                   }
                 },
               ),

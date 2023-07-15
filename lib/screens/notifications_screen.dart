@@ -65,6 +65,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     Navigator.of(context).pop();
 
                     if (response["success"]) {
+                      auth.checkLoggin();
                       showSuccessMessage(
                         response["message"] ?? "You joined complex!",
                       );

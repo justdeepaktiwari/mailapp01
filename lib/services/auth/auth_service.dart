@@ -129,7 +129,7 @@ class AuthService {
       ])) {
         return {"success": true, "message": "Logout successfully!"};
       }
-      return result;
+      return {"success": true, "message": "Logout successfully!"};
     }
   }
 }
