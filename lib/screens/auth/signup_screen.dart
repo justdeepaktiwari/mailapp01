@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
@@ -21,6 +26,10 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  late StreamSubscription subscription;
+  bool isDeviceConnected = false;
+  bool isAlertSet = false;
+
   bool _isValidEmail = false;
   bool _isValidPhone = false;
   bool _isValidPassword = false;
@@ -35,6 +44,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailAddress = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+
+  @override
+  void initState() {
+    getConnectivity();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -270,4 +285,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+  getConnectivity() async {
+    isDeviceConnected = await InternetConnectionChecker().hasConnection;
+
+    if (!isDeviceConnected && isAlertSet == false) {
+      showDialogBox();
+      setState(() => isAlertSet = true);
+    }
+
+    subscription = Connectivity().onConnectivityChanged.listen(
+      (ConnectivityResult result) async {
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (!isDeviceConnected && isAlertSet == false) {
+          showDialogBox();
+          setState(() => isAlertSet = true);
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    name.dispose();
+    phone.dispose();
+    emailAddress.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+    super.dispose();
+  }
+
+  showDialogBox() => showCupertinoDialog<String>(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text('No Connection'),
+          content: const Text('Please check your internet connectivity'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, 'Cancel');
+                setState(() => isAlertSet = false);
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected && isAlertSet == false) {
+                  showDialogBox();
+                  setState(() => isAlertSet = true);
+                }
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
 }

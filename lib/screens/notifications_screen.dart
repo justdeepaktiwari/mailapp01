@@ -39,7 +39,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
     TextEditingController complexId = TextEditingController();
-
+    if (auth.isRefresh) {
+      auth.refreshFalse();
+      isLoading = true;
+      listNotifications();
+    }
     return Visibility(
       visible: isLoading,
       replacement: RefreshIndicator(

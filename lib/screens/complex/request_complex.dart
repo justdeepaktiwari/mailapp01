@@ -180,4 +180,12 @@ class _RequestComplexState extends State<RequestComplex> {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+  @override
+  void dispose() {
+    complexName.dispose();
+    complexLocation.dispose();
+    notes.dispose();
+    super.dispose();
+  }
 }

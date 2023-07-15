@@ -37,8 +37,10 @@ class _SettingScreenState extends State<SettingScreen> {
           delegate: SliverChildListDelegate(
             <Widget>[
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 0.0,
+                  horizontal: 20.0,
+                ),
                 height: 75,
                 color: AppConstants.cardColor,
                 child: Row(
@@ -166,5 +168,10 @@ class _SettingScreenState extends State<SettingScreen> {
       backgroundColor: Colors.red,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
