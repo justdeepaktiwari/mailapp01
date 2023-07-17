@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879230167057",
+    "project_id": "mailbx-andriod",
+    "storage_bucket": "mailbx-andriod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879230167057:android:223b43db7a21a88bd529b0",
+        "android_client_info": {
+          "package_name": "com.example.mailapp01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879230167057-9c0mg8vat21029vj6uc86q87qmivcajd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV9HR_LPjJjixaNg_UVSU3Ecoq2A7RKyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879230167057-9c0mg8vat21029vj6uc86q87qmivcajd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

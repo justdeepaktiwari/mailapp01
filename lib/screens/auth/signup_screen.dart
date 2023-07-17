@@ -193,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             phone.text,
                             password.text,
                             confirmPassword.text,
-                            "dummy",
+                            auth.deviceId ?? "waiting",
                           ),
                         );
 

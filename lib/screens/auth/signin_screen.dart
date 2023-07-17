@@ -158,7 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           LoginBody(
                             emailAddress.text,
                             password.text,
-                            "dummy",
+                            auth.deviceId ?? "waiting",
                           ),
                         );
 
