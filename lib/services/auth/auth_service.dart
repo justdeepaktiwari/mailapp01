@@ -64,7 +64,6 @@ class AuthService {
     );
 
     final result = jsonDecode(response.body);
-    print(result);
     if (response.statusCode == 200) {
       await SharedPreferencesUtils.addStringToSF(
         "token",

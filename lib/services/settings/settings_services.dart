@@ -1,10 +1,15 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/services/notifications/local_notification_service.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class MobileSettings {
+  BuildContext context;
+  MobileSettings(this.context);
+
   Future<void> getDeviceTokenToSendNotification() async {
-    print(SharedPreferencesUtils.getStringValuesSF("deviceId"));
+    /*print(SharedPreferencesUtils.getStringValuesSF("deviceId"));*/
     if (SharedPreferencesUtils.getStringValuesSF("deviceId").isNotEmpty) return;
 
     final fcmToken = await FirebaseMessaging.instance.getToken();
@@ -17,7 +22,7 @@ class MobileSettings {
   Future<void> permissionRequest() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
+    await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -27,14 +32,23 @@ class MobileSettings {
       sound: true,
     );
 
-    print('User granted permission: ${settings.authorizationStatus}');
+    /*print('User granted permission: ${settings.authorizationStatus}');*/
   }
 
   forGroundState() {
     FirebaseMessaging.onMessage.listen(
       (message) {
         if (message.notification != null) {
-          LocalNotificationService.createanddisplaynotification(message);
+          LocalNotificationService.createanddisplaynotification(
+            message,
+            context,
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          );
         }
       },
     );
@@ -43,7 +57,14 @@ class MobileSettings {
   terminatedState() {
     FirebaseMessaging.instance.getInitialMessage().then(
       (message) {
-        if (message != null) {}
+        if (message != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          );
+        }
       },
     );
   }
@@ -51,12 +72,13 @@ class MobileSettings {
   backgroundNotTerminated() {
     FirebaseMessaging.onMessageOpenedApp.listen(
       (message) {
-        print("FirebaseMessaging.onMessageOpenedApp.listen");
-        LocalNotificationService.createanddisplaynotification(message);
         if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data22 ${message.data['_id']}");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          );
         }
       },
     );

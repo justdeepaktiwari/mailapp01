@@ -6,34 +6,30 @@ class LocalNotificationService {
       FlutterLocalNotificationsPlugin();
 
   static void initialize() {
-    // initializationSettings  for Android
+    // initializationSettings for Android
+
     const InitializationSettings initializationSettings =
         InitializationSettings(
-      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+      android: AndroidInitializationSettings(
+        "@mipmap/ic_launcher",
+      ),
     );
 
     _notificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (payload) async {
-        print("sdfsdfs ${payload.id}");
-        // if (payload != '') {
-        //   print("Router Value1234 $payload");
-
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => DemoScreen(
-        //       id: id,
-        //     ),
-        //   ),
-        // );
-        // }
-      },
+      onDidReceiveNotificationResponse: (
+        NotificationResponse notificationResponse,
+      ) async {},
     );
   }
 
-  static void createanddisplaynotification(RemoteMessage message) async {
+  static void createanddisplaynotification(
+    RemoteMessage message,
+    context,
+  ) async {
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
       const NotificationDetails notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails(
           "mailapp01",
@@ -50,8 +46,7 @@ class LocalNotificationService {
         notificationDetails,
         payload: message.data['_id'],
       );
-    } on Exception catch (e) {
-      print(e);
-    }
+      // ignore: empty_catches
+    } on Exception {}
   }
 }

@@ -9,10 +9,7 @@ import 'package:mailapp01/utils/shared_preferences_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.notification!.title);
-}
+Future<void> backgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    final mobileSettings = MobileSettings();
+    final mobileSettings = MobileSettings(context);
 
     mobileSettings.getDeviceTokenToSendNotification();
     mobileSettings.permissionRequest();
