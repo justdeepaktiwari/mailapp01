@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:mailapp01/screens/auth/verify_screen.dart';
 import 'package:mailapp01/screens/splash_screen.dart';
 import 'package:mailapp01/services/notifications/local_notification_service.dart';
 import 'package:mailapp01/services/settings/settings_services.dart';
@@ -9,13 +10,18 @@ import 'package:mailapp01/utils/shared_preferences_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 
+import 'firebase_options.dart';
+
 Future<void> backgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesUtils.init();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   LocalNotificationService.initialize();
 
@@ -34,10 +40,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     final mobileSettings = MobileSettings(context);
-
-    mobileSettings.getDeviceTokenToSendNotification();
     mobileSettings.permissionRequest();
 
+    mobileSettings.getDeviceTokenToSendNotification();
     mobileSettings.forGroundState();
     mobileSettings.backgroundNotTerminated();
     mobileSettings.terminatedState();
@@ -53,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: AppConstants.appColorMaterial,
         ),
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        home: const VerifyUserScreen(),
       ),
     );
   }

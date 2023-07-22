@@ -4,10 +4,15 @@ import 'package:mailapp01/utils/constants.dart';
 class TextDiffrentColorWidget extends StatelessWidget {
   final String startText;
   final String endText;
+  final double? startFontSize;
+  final double? endFontSize;
+
   const TextDiffrentColorWidget({
     super.key,
     required this.startText,
     required this.endText,
+    this.startFontSize,
+    this.endFontSize,
   });
 
   @override
@@ -17,17 +22,17 @@ class TextDiffrentColorWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: startText,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppConstants.appColor,
-              fontSize: 12,
+              fontSize: startFontSize ?? 12,
               fontWeight: FontWeight.bold,
             ),
           ),
           TextSpan(
             text: endText,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppConstants.white,
-              fontSize: 10,
+              fontSize: endFontSize ?? 10,
               fontWeight: FontWeight.bold,
             ),
           )

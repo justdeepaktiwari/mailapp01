@@ -17,4 +17,6 @@ class ApiEndpoints {
   String get listNotifications => '/notifications/$userId';
   String get profileUpdate => '/users/$userId/update';
   String get listComplex => '/complexes/$userId';
+
+  String get verifyUser => '';
 }

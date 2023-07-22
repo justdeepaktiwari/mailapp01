@@ -22,17 +22,13 @@ class MobileSettings {
   Future<void> permissionRequest() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    await messaging.requestPermission(
+    final settings = await messaging.requestPermission(
       alert: true,
-      announcement: false,
       badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
       sound: true,
     );
 
-    /*print('User granted permission: ${settings.authorizationStatus}');*/
+    print('User granted permission: ${settings.authorizationStatus}');
   }
 
   forGroundState() {
