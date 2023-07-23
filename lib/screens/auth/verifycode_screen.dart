@@ -312,7 +312,6 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
   }
 
   String _formatDuration(int duration) {
-    print(duration);
     int minutes = duration ~/ 60;
     int seconds = duration % 60;
     return '$minutes:${seconds.toString().padLeft(2, '0')}';
