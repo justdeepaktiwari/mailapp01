@@ -110,7 +110,7 @@ class AuthService {
     final response = await ApiHelper.post(
       ApiEndpoints().verifyUser,
       verifyBody.bodyData(),
-      ApiHelper.guestRequestHeaders(),
+      ApiHelper.authRequestHeaders(),
     );
 
     final result = jsonDecode(response.body);
@@ -141,6 +141,52 @@ class AuthService {
     final response = await ApiHelper.post(
       ApiEndpoints().sendVerifyCode,
       verifyCodeBody.bodyData(),
+      ApiHelper.authRequestHeaders(),
+    );
+
+    final result = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return result;
+    }
+
+    return {
+      "success": false,
+      "message": "Error in sending code!",
+    };
+  }
+
+  static Future<Map<String, dynamic>> sendResetCode(
+    VerifyCodeBody resetCodeBody,
+  ) async {
+    final response = await ApiHelper.post(
+      ApiEndpoints().resetRequestCode,
+      resetCodeBody.bodyData(),
+      ApiHelper.guestRequestHeaders(),
+    );
+
+    final result = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      await SharedPreferencesUtils.addStringToSF(
+        "resetPhone",
+        resetCodeBody.phoneNumber,
+      );
+      return result;
+    }
+
+    return {
+      "success": false,
+      "message": "Error in sending code!",
+    };
+  }
+
+  static Future<Map<String, dynamic>> verifyResetCode(
+    VerifyBody resetCodeBody,
+  ) async {
+    final response = await ApiHelper.post(
+      ApiEndpoints().passwordResetVerify,
+      resetCodeBody.bodyData(),
       ApiHelper.guestRequestHeaders(),
     );
 

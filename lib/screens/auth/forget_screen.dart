@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/verifycode_screen.dart';
+import 'package:mailapp01/services/auth/auth_service.dart';
+import 'package:mailapp01/services/auth/verifycode_body.dart';
 import 'package:mailapp01/utils/constants.dart';
+import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/button.dart';
@@ -14,7 +18,11 @@ class ForgetScreen extends StatefulWidget {
 }
 
 class _ForgetScreenState extends State<ForgetScreen> {
-  TextEditingController emailAddress = TextEditingController();
+  TextEditingController phone = TextEditingController();
+
+  bool _isValidNumber = false;
+  String phoneError = "Enter valid phone number";
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
@@ -62,7 +70,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Email Address",
+                      "Phone Number",
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -73,7 +81,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       height: 20,
                     ),
                     const Text(
-                      "Enter the Email Address associated with your account.",
+                      "Enter the Phone number associated with your account.",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -84,10 +92,11 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       height: 20,
                     ),
                     TextFieldWidget(
-                      labelText: "E-mail Address",
-                      editingController: emailAddress,
+                      labelText: "Phone Number",
+                      editingController: phone,
                       isPasswordType: false,
-                      textInputType: TextInputType.emailAddress,
+                      textInputType: TextInputType.number,
+                      errorText: _isValidNumber ? phoneError : null,
                     ),
                     const SizedBox(
                       height: 10,
@@ -99,8 +108,45 @@ class _ForgetScreenState extends State<ForgetScreen> {
                     ),
                     ButtonWidget(
                       buttonName: "Send link",
-                      onPressed: () {
-                        auth.login();
+                      onPressed: () async {
+                        _isValidNumber = phone.text.length != 13;
+
+                        if (_isValidNumber) {
+                          setState(() {});
+                          return;
+                        }
+
+                        _showProcessingDialog();
+
+                        final response = await AuthService.sendResetCode(
+                          VerifyCodeBody(
+                            phone.text,
+                          ),
+                        );
+
+                        if (response["success"]) {
+                          showSuccessMessage(
+                            response["message"] ?? "Code sent successfully!",
+                          );
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerifyUserScreen(
+                                isForVerification: false,
+                              ),
+                            ),
+                          );
+                        } else {
+                          _isValidNumber = true;
+                          phoneError = "Enter correct number";
+                          showErrorMessage(response["message"] ?? "");
+                          setState(() {});
+                        }
+
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pop();
                       },
                     ),
                     const SizedBox(
@@ -115,5 +161,31 @@ class _ForgetScreenState extends State<ForgetScreen> {
         ),
       ),
     );
+  }
+
+  void _showProcessingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const ProcessingDialog();
+      },
+    );
+  }
+
+  void showSuccessMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -7,6 +7,9 @@ class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = false;
   bool _isVerified = false;
   bool _isRefresh = false;
+
+  String? _resetPhoneNumber;
+
   String? _deviceId;
   int? _userId;
   int? _complexCount;
@@ -15,6 +18,8 @@ class AuthProvider with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   bool get isVerified => _isVerified;
   bool get isRefresh => _isRefresh;
+
+  String? get resetPhoneNumber => _resetPhoneNumber;
 
   Map<String, dynamic> get userInfo => _userInfo;
   int? get userId => _userId;
@@ -29,6 +34,7 @@ class AuthProvider with ChangeNotifier {
     _complexCount = SharedPreferencesUtils.getIntValuesSF("complexCount");
     _deviceId = SharedPreferencesUtils.getStringValuesSF("deviceId");
     _isVerified = _userInfo["is_verified"] == 1;
+    _resetPhoneNumber = SharedPreferencesUtils.getStringValuesSF("resetPhone");
   }
 
   login() {

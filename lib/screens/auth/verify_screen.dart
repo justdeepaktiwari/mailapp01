@@ -119,7 +119,9 @@ class _VerifyPageState extends State<VerifyPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const VerifyUserScreen(),
+                          builder: (context) => VerifyUserScreen(
+                            isForVerification: true,
+                          ),
                         ),
                       );
                     } else {
