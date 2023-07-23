@@ -18,5 +18,10 @@ class ApiEndpoints {
   String get profileUpdate => '/users/$userId/update';
   String get listComplex => '/complexes/$userId';
 
-  String get verifyUser => '';
+  String get sendVerifyCode => '/send-verification-code';
+  String get verifyUser => '/verify-code';
+
+  String get resetRequestCode => '/password/reset/request';
+  String get passwordResetVerify => '/password/reset/verify';
+  String get passwordReset => '/password/reset';
 }

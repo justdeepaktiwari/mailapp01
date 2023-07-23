@@ -5,6 +5,7 @@ import 'package:mailapp01/api/api_helpers.dart';
 import 'package:mailapp01/services/auth/login_body.dart';
 import 'package:mailapp01/services/auth/register_body.dart';
 import 'package:mailapp01/services/auth/verify_body.dart';
+import 'package:mailapp01/services/auth/verifycode_body.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class AuthService {
@@ -40,6 +41,7 @@ class AuthService {
           "email": result["data"]["user"]["email"],
           "push": result["data"]["user"]["push_notification"],
           "sms": result["data"]["user"]["sms_notification"],
+          "is_verified": result["data"]["user"]["is_verified"],
         });
         await SharedPreferencesUtils.addStringToSF(
           "userInfo",
@@ -86,6 +88,7 @@ class AuthService {
           "email": result["data"]["user"]["email"],
           "push": result["data"]["user"]["push_notification"],
           "sms": result["data"]["user"]["sms_notification"],
+          "is_verified": result["data"]["user"]["is_verified"],
         });
         await SharedPreferencesUtils.addStringToSF(
           "userInfo",
@@ -103,10 +106,10 @@ class AuthService {
     };
   }
 
-  static Future<Map<String, dynamic>> verifyUser(VerifyBody loginBody) async {
+  static Future<Map<String, dynamic>> verifyUser(VerifyBody verifyBody) async {
     final response = await ApiHelper.post(
       ApiEndpoints().verifyUser,
-      loginBody.bodyData(),
+      verifyBody.bodyData(),
       ApiHelper.guestRequestHeaders(),
     );
 
@@ -132,6 +135,7 @@ class AuthService {
           "email": result["data"]["user"]["email"],
           "push": result["data"]["user"]["push_notification"],
           "sms": result["data"]["user"]["sms_notification"],
+          "is_verified": result["data"]["user"]["is_verified"],
         });
         await SharedPreferencesUtils.addStringToSF(
           "userInfo",
@@ -149,6 +153,27 @@ class AuthService {
     };
   }
 
+  static Future<Map<String, dynamic>> sendVerifyCode(
+    VerifyCodeBody verifyCodeBody,
+  ) async {
+    final response = await ApiHelper.post(
+      ApiEndpoints().sendVerifyCode,
+      verifyCodeBody.bodyData(),
+      ApiHelper.guestRequestHeaders(),
+    );
+
+    final result = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return result;
+    }
+
+    return {
+      "success": false,
+      "message": "Error in sending code!",
+    };
+  }
+
   static Future<Map<String, dynamic>> logoutUser() async {
     final response = await ApiHelper.post(
       ApiEndpoints().logout,
@@ -163,6 +188,7 @@ class AuthService {
         "userId",
         "userInfo",
         "complexCount",
+        "isVerified",
       ]);
       return result;
     } else {
@@ -172,6 +198,7 @@ class AuthService {
         "userId",
         "userInfo",
         "complexCount",
+        "isVerified",
       ])) {
         return {"success": true, "message": "Logout successfully!"};
       }

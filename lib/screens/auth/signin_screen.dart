@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/verify_screen.dart';
 import 'package:mailapp01/screens/auth/signup_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/services/auth/auth_service.dart';
@@ -185,7 +186,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
+                              builder: (context) => auth.isVerified
+                                  ? const HomeScreen()
+                                  : const VerifyPage(),
                             ),
                           );
                         }

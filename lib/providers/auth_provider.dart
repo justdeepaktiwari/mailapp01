@@ -5,6 +5,7 @@ import 'package:mailapp01/utils/shared_preferences_utils.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = false;
+  bool _isVerified = false;
   bool _isRefresh = false;
   String? _deviceId;
   int? _userId;
@@ -12,7 +13,9 @@ class AuthProvider with ChangeNotifier {
   Map<String, dynamic> _userInfo = {};
 
   bool get isLoggedIn => _isLoggedIn;
+  bool get isVerified => _isVerified;
   bool get isRefresh => _isRefresh;
+
   Map<String, dynamic> get userInfo => _userInfo;
   int? get userId => _userId;
   int? get complexCount => _complexCount;
@@ -25,6 +28,7 @@ class AuthProvider with ChangeNotifier {
     _isLoggedIn = SharedPreferencesUtils.getBoolValuesSF("isLoggedin");
     _complexCount = SharedPreferencesUtils.getIntValuesSF("complexCount");
     _deviceId = SharedPreferencesUtils.getStringValuesSF("deviceId");
+    _isVerified = _userInfo["is_verified"] == 1;
   }
 
   login() {

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
+import 'package:mailapp01/screens/auth/verify_screen.dart';
 import 'package:mailapp01/screens/complex/complex_screen.dart';
 import 'package:mailapp01/screens/complex/request_complex.dart';
 import 'package:mailapp01/screens/notifications_screen.dart';
@@ -55,16 +56,25 @@ class _HomeScreenState extends State<HomeScreen> {
     getConnectivity();
     super.initState();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    navigate(authProvider.isLoggedIn);
+    navigate(authProvider.isLoggedIn, authProvider.isVerified);
   }
 
-  void navigate(isLoggedIn) {
+  void navigate(isLoggedIn, isVerified) {
     if (!isLoggedIn) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const SignInScreen(),
+        ),
+      );
+    }
+    if (isLoggedIn && !isVerified) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const VerifyPage(),
         ),
       );
     }
