@@ -115,35 +115,17 @@ class AuthService {
 
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      final decodedInfo = jsonDecode(
+        SharedPreferencesUtils.getStringValuesSF("userInfo") ?? "{}",
+      );
+      decodedInfo["is_verified"] = 1;
+
+      String userInfoEncoded = jsonEncode(decodedInfo);
       await SharedPreferencesUtils.addStringToSF(
-        "token",
-        result["data"]["token"]["plainTextToken"],
+        "userInfo",
+        userInfoEncoded,
       );
-      await SharedPreferencesUtils.addIntToSF(
-        "complexCount",
-        result["data"]["complex_count"] ?? 0,
-      );
-      if (result["data"]["token"]["plainTextToken"] != null) {
-        await SharedPreferencesUtils.addBoolToSF("isLoggedin", true);
-        await SharedPreferencesUtils.addIntToSF(
-          "userId",
-          result["data"]["user"]["id"],
-        );
-        String userInfoEncoded = jsonEncode({
-          "name": result["data"]["user"]["name"],
-          "phone": result["data"]["user"]["phone"],
-          "email": result["data"]["user"]["email"],
-          "push": result["data"]["user"]["push_notification"],
-          "sms": result["data"]["user"]["sms_notification"],
-          "is_verified": result["data"]["user"]["is_verified"],
-        });
-        await SharedPreferencesUtils.addStringToSF(
-          "userInfo",
-          userInfoEncoded,
-        );
-      }
-      return result;
-    } else if (response.statusCode == 401) {
+
       return result;
     }
 

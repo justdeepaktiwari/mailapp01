@@ -68,8 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context) => const SignInScreen(),
         ),
       );
-    }
-    if (isLoggedIn && !isVerified) {
+    } else if (isLoggedIn && !isVerified) {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,

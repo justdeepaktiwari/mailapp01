@@ -1,9 +1,16 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/services/complex/request_body.dart';
 import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/page_heading.dart';
 import 'package:mailapp01/widgets/processing_dialog.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/text_field.dart';
@@ -16,12 +23,22 @@ class RequestComplex extends StatefulWidget {
 }
 
 class _RequestComplexState extends State<RequestComplex> {
+  late StreamSubscription subscription;
+  bool isDeviceConnected = false;
+  bool isAlertSet = false;
+
   bool complexNameError = false;
   bool complexLocationError = false;
 
   TextEditingController complexName = TextEditingController();
   TextEditingController complexLocation = TextEditingController();
   TextEditingController notes = TextEditingController();
+
+  @override
+  void initState() {
+    getConnectivity();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +200,57 @@ class _RequestComplexState extends State<RequestComplex> {
 
   @override
   void dispose() {
+    subscription.cancel();
     complexName.dispose();
     complexLocation.dispose();
     notes.dispose();
     super.dispose();
+  }
+
+  getConnectivity() async {
+    isDeviceConnected = await InternetConnectionChecker().hasConnection;
+
+    if (!isDeviceConnected && isAlertSet == false) {
+      showDialogBox();
+      setState(() => isAlertSet = true);
+    }
+
+    subscription = Connectivity().onConnectivityChanged.listen(
+      (ConnectivityResult result) async {
+        isDeviceConnected = await InternetConnectionChecker().hasConnection;
+        if (!isDeviceConnected && isAlertSet == false) {
+          showDialogBox();
+          setState(() => isAlertSet = true);
+        }
+      },
+    );
+  }
+
+  showDialogBox() {
+    showCupertinoDialog<String>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text('No Connection'),
+        content: const Text('Please check your internet connectivity'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context, 'Cancel');
+              setState(() => isAlertSet = false);
+              isDeviceConnected =
+                  await InternetConnectionChecker().hasConnection;
+              if (!isDeviceConnected && isAlertSet == false) {
+                showDialogBox();
+                setState(() => isAlertSet = true);
+              } else {
+                // ignore: use_build_context_synchronously
+                Provider.of<AuthProvider>(context, listen: false).refreshTrue();
+              }
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }

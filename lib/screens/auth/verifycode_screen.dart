@@ -4,10 +4,15 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/home_screen.dart';
+import 'package:mailapp01/services/auth/auth_service.dart';
+import 'package:mailapp01/services/auth/verify_body.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/button.dart';
 import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
+import 'package:provider/provider.dart';
 
 class VerifyUserScreen extends StatefulWidget {
   const VerifyUserScreen({super.key});
@@ -40,6 +45,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -149,7 +155,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                     ),
                     ButtonWidget(
                       buttonName: "Verify Now",
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           _hasError = false;
                         });
@@ -161,8 +167,45 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                             return;
                           }
                         }
+
                         _showProcessingDialog();
-                        _submitCode();
+
+                        String code = '';
+                        for (var i = 0; i < 6; i++) {
+                          code += _controllers[i].text;
+                        }
+
+                        if (auth.userInfo["phone"] != "") {
+                          final response = await AuthService.verifyUser(
+                            VerifyBody(code, auth.userInfo["phone"]),
+                          );
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pop();
+
+                          if (response["success"]) {
+                            auth.checkLoggin();
+
+                            showSuccessMessage(
+                              response["message"] ?? "Successfully Verified",
+                            );
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(),
+                              ),
+                            );
+                          } else {
+                            showErrorMessage(
+                              response["message"] ?? "Error in sending code",
+                            );
+                          }
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pop();
+                        }
                       },
                     ),
                     const SizedBox(
@@ -234,13 +277,6 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
         },
       ),
     );
-  }
-
-  void _submitCode() {
-    String code = '';
-    for (var i = 0; i < 6; i++) {
-      code += _controllers[i].text;
-    }
   }
 
   void _showProcessingDialog() {

@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           isPasswordType: false,
                           textInputType: TextInputType.phone,
                           isNotUpdatedField: true,
-                          errorText: phone.text == '' || phone.text.length != 10
+                          errorText: phone.text == '' || phone.text.length != 13
                               ? "Enter correct number"
                               : null,
                         ),
@@ -219,6 +219,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    name.dispose();
+    phone.dispose();
+    emailAddress.dispose();
+    password.dispose();
+    super.dispose();
   }
 
   void _showProcessingDialog() {

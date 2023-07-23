@@ -45,6 +45,21 @@ class _SignInScreenState extends State<SignInScreen> {
   void initState() {
     getConnectivity();
     super.initState();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    navigate(authProvider.isLoggedIn, authProvider.isVerified);
+  }
+
+  void navigate(isLoggedIn, isVerified) {
+    if (isLoggedIn && !isVerified) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              isVerified ? const HomeScreen() : const VerifyPage(),
+        ),
+      );
+    }
   }
 
   @override

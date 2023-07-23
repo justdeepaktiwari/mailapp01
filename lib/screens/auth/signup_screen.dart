@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
+import 'package:mailapp01/screens/auth/verify_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/services/auth/auth_service.dart';
 import 'package:mailapp01/services/auth/register_body.dart';
@@ -49,6 +50,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     getConnectivity();
     super.initState();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    navigate(authProvider.isLoggedIn, authProvider.isVerified);
+  }
+
+  void navigate(isLoggedIn, isVerified) {
+    if (isLoggedIn && !isVerified) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              isVerified ? const HomeScreen() : const VerifyPage(),
+        ),
+      );
+    }
   }
 
   @override
@@ -171,7 +187,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _isValidPassword = password.text.length < 6;
                         _isValidCnfPassword =
                             password.text != confirmPassword.text;
-                        _isValidPhone = phone.text.length != 10;
+                        _isValidPhone = phone.text.length != 13;
                         _isValidName = name.text == '';
 
                         bool fieldCheck = _isValidEmail ||

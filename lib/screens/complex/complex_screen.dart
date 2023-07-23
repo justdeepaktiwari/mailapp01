@@ -173,6 +173,12 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    complexId.dispose();
+    super.dispose();
+  }
+
   Future<void> listComplex() async {
     final response = await ComplexService.listComplex();
     setState(() {

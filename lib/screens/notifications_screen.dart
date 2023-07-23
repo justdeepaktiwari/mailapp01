@@ -21,6 +21,7 @@ class NotificationsScreen extends StatefulWidget {
 class _NotificationsScreenState extends State<NotificationsScreen> {
   bool isLoading = true;
   List listNotification = [];
+  TextEditingController complexId = TextEditingController();
 
   @override
   void setState(fn) {
@@ -38,7 +39,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
-    TextEditingController complexId = TextEditingController();
     if (auth.isRefresh) {
       auth.refreshFalse();
       isLoading = true;
@@ -135,6 +135,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         child: CircularProgressIndicator(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    complexId.dispose();
+    super.dispose();
   }
 
   void _showProcessingDialog() {

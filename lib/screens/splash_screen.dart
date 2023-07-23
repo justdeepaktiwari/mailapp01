@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
+import 'package:mailapp01/screens/auth/verify_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,9 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => authProvider.isLoggedIn
-              ? const HomeScreen()
+              ? (authProvider.isVerified
+                  ? const HomeScreen()
+                  : const VerifyPage())
               : const SignInScreen(),
         ),
       ),
