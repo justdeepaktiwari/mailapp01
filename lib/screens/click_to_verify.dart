@@ -33,17 +33,27 @@ class VerifyPage extends StatelessWidget {
           const SizedBox(
             height: 30.0,
           ),
-          const Row(
-            children: [
-              Text(
-                "Prashu kumar sharma, 9155XXXXXX",
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    decoration: TextDecoration.none),
-              ),
-            ],
-          ),
+          const SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Prashu kumar sharma,",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        decoration: TextDecoration.none),
+                  ),
+                  Text(
+                    "9155XXXXXX",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        decoration: TextDecoration.none),
+                  ),
+                ],
+              )),
           const SizedBox(
             height: 10.0,
           ),
