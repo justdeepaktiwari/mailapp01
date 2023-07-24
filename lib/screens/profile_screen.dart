@@ -59,36 +59,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (response["success"] == true) {
                     auth.checkLoggin();
                     auth.logout();
-                    if (!auth.isLoggedIn) {
-                      setState(() {});
-                      showSuccessMessage(
-                        response["data"]["message"] ?? "Error in logout",
-                      );
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInScreen(),
-                        ),
-                      );
-                    }
+                    setState(() {});
+                    showSuccessMessage(
+                      response["message"] ?? "Error in logout",
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
                   } else {
                     auth.checkLoggin();
                     auth.logout();
                     setState(() {});
-                    if (!auth.isLoggedIn) {
-                      setState(() {});
-                      showSuccessMessage(
-                        response["data"]["message"] ?? "Error in logout",
-                      );
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInScreen(),
-                        ),
-                      );
-                    }
+                    setState(() {});
+                    showSuccessMessage(
+                      response["message"] ?? "Error in logout",
+                    );
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                    );
                   }
                 },
               ),

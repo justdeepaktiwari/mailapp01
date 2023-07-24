@@ -95,7 +95,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       labelText: "Phone Number",
                       editingController: phone,
                       isPasswordType: false,
-                      textInputType: TextInputType.number,
+                      textInputType: TextInputType.phone,
                       errorText: _isValidNumber ? phoneError : null,
                     ),
                     const SizedBox(
@@ -124,6 +124,9 @@ class _ForgetScreenState extends State<ForgetScreen> {
                           ),
                         );
 
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pop();
+
                         if (response["success"]) {
                           showSuccessMessage(
                             response["message"] ?? "Code sent successfully!",
@@ -144,9 +147,6 @@ class _ForgetScreenState extends State<ForgetScreen> {
                           showErrorMessage(response["message"] ?? "");
                           setState(() {});
                         }
-
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context).pop();
                       },
                     ),
                     const SizedBox(

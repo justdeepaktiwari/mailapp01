@@ -5,15 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
+import 'package:mailapp01/screens/auth/reset_screen.dart';
 import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/services/auth/auth_service.dart';
 import 'package:mailapp01/services/auth/verify_body.dart';
+import 'package:mailapp01/services/auth/verifycode_body.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/button.dart';
 import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class VerifyUserScreen extends StatefulWidget {
   bool isForVerification;
   VerifyUserScreen({
@@ -36,7 +39,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
   late List<TextEditingController> _controllers;
 
   late Timer _timer;
-  int _currentDuration = 1 * 10;
+  int _currentDuration = 15 * 60;
 
   @override
   void initState() {
@@ -58,10 +61,10 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
               height: 100,
               width: double.infinity,
             ),
-            const Center(
+            Center(
               child: Text(
-                "Verify Account",
-                style: TextStyle(
+                widget.isForVerification ? "Verify Account" : "Verify To Reset",
+                style: const TextStyle(
                   fontSize: 40,
                   color: AppConstants.white,
                   fontWeight: FontWeight.bold,
@@ -119,14 +122,51 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                                 startFontSize: 16,
                                 endFontSize: 16,
                               ),
-                              onTap: () {
+                              onTap: () async {
                                 setState(() {
                                   _currentDuration = 15 * 60;
                                   _startTimer();
-                                  setState(() {
-                                    _hasError = false;
-                                  });
+                                  _hasError = false;
                                 });
+                                _showProcessingDialog();
+
+                                if (widget.isForVerification) {
+                                  final response = verifyCode(
+                                    auth.userInfo["phone"],
+                                  );
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pop();
+
+                                  if (response["success"]) {
+                                    showSuccessMessage(
+                                      response["message"] ??
+                                          "Successfully Code Sent",
+                                    );
+                                  } else {
+                                    showErrorMessage(
+                                      response["message"] ??
+                                          "Error in sending code",
+                                    );
+                                  }
+                                } else {
+                                  final response = await resetCode(
+                                    auth.resetPhoneNumber ?? "",
+                                  );
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.of(context).pop();
+
+                                  if (response["success"]) {
+                                    showSuccessMessage(
+                                      response["message"] ??
+                                          "Successfully Code Sent",
+                                    );
+                                  } else {
+                                    showErrorMessage(
+                                      response["message"] ??
+                                          "Error in sending code",
+                                    );
+                                  }
+                                }
                               },
                             ),
                     ),
@@ -165,6 +205,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                         setState(() {
                           _hasError = false;
                         });
+
                         for (var element in _controllers) {
                           if (element.text == '') {
                             setState(() {
@@ -182,16 +223,58 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                         }
 
                         if (widget.isForVerification) {
-                          verifyUser(
+                          final response = await verifyUser(
                             auth.userInfo["phone"] ?? "",
                             code,
                           );
                           auth.checkLoggin();
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pop();
+
+                          if (response["success"]) {
+                            showSuccessMessage(
+                              response["message"] ?? "Successfully Verified",
+                            );
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(),
+                              ),
+                            );
+                          } else {
+                            showErrorMessage(
+                              response["message"] ?? "Error in verifying code",
+                            );
+                          }
                         } else {
-                          resetPassword(
+                          final response = await resetPassword(
                             auth.resetPhoneNumber ?? "",
                             code,
                           );
+                          print(response);
+                          auth.checkLoggin();
+                          // ignore: use_build_context_synchronously
+                          Navigator.of(context).pop();
+                          if (response["success"]) {
+                            showSuccessMessage(
+                              response["message"] ?? "Successfully Verified",
+                            );
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ResetPasswordScreen(),
+                              ),
+                            );
+                          } else {
+                            showErrorMessage(
+                              response["message"] ?? "Error in verifying code",
+                            );
+                          }
                         }
                       },
                     ),
@@ -266,68 +349,38 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
     );
   }
 
-  void verifyUser(String phoneNumber, String code) async {
+  verifyUser(String phoneNumber, String code) async {
     if (phoneNumber != "") {
       final response = await AuthService.verifyUser(
         VerifyBody(code, phoneNumber),
       );
-
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-
-      if (response["success"]) {
-        showSuccessMessage(
-          response["message"] ?? "Successfully Verified",
-        );
-
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
-      } else {
-        showErrorMessage(
-          response["message"] ?? "Error in sending code",
-        );
-      }
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      return response;
     }
   }
 
-  void resetPassword(String phoneNumber, String code) async {
+  resetPassword(String phoneNumber, String code) async {
     if (phoneNumber != "") {
-      final response = await AuthService.verifyUser(
+      final response = await AuthService.verifyResetCode(
         VerifyBody(code, phoneNumber),
       );
-
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-
-      if (response["success"]) {
-        showSuccessMessage(
-          response["message"] ?? "Successfully Verified",
-        );
-
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
-      } else {
-        showErrorMessage(
-          response["message"] ?? "Error in sending code",
-        );
-      }
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
+      return response;
     }
+  }
+
+  verifyCode(String phoneNumber) async {
+    final response = await AuthService.sendVerifyCode(
+      VerifyCodeBody(phoneNumber),
+    );
+    return response;
+  }
+
+  resetCode(String phoneNumber) async {
+    final response = await AuthService.sendResetCode(
+      VerifyCodeBody(
+        phoneNumber,
+      ),
+    );
+    return response;
   }
 
   void _showProcessingDialog() {

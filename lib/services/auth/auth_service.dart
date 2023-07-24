@@ -4,6 +4,7 @@ import 'package:mailapp01/api/api_endpoints.dart';
 import 'package:mailapp01/api/api_helpers.dart';
 import 'package:mailapp01/services/auth/login_body.dart';
 import 'package:mailapp01/services/auth/register_body.dart';
+import 'package:mailapp01/services/auth/reset_body.dart';
 import 'package:mailapp01/services/auth/verify_body.dart';
 import 'package:mailapp01/services/auth/verifycode_body.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
@@ -191,7 +192,31 @@ class AuthService {
     );
 
     final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      await SharedPreferencesUtils.addStringToSF(
+        "resetCode",
+        resetCodeBody.code,
+      );
+      return result;
+    } else if (response.statusCode == 400) {
+      return result;
+    }
+    return {
+      "success": false,
+      "message": "Error in verifying code!",
+    };
+  }
 
+  static Future<Map<String, dynamic>> resetPassword(
+    ResetPasswordBody resetPasswordBody,
+  ) async {
+    final response = await ApiHelper.post(
+      ApiEndpoints().passwordReset,
+      resetPasswordBody.bodyData(),
+      ApiHelper.guestRequestHeaders(),
+    );
+
+    final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       return result;
     }
