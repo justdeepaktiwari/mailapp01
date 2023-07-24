@@ -89,7 +89,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                         child: Text(
-                          "No Notification Found!",
+                          "No Notifications Found!",
                           style: TextStyle(
                             fontSize: 25,
                             color: Colors.white,

@@ -52,7 +52,7 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                   child: Text(
-                    "No Complex Found!",
+                    "No Complexes Found!",
                     style: TextStyle(
                       fontSize: 25,
                       color: Colors.white,
