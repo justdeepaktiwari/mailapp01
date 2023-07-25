@@ -64,9 +64,9 @@ class _VerifyPageState extends State<VerifyPage> {
               const SizedBox(
                 height: 30.0,
               ),
-              const Text(
-                "Click on the below button and we will send an OTP to the registered number to verify your account.",
-                style: TextStyle(
+              Text(
+                "Click on the below button and we will send an OTP on number ${auth.resetPhoneNumber} to verify your account.",
+                style: const TextStyle(
                   fontSize: 15,
                   color: Colors.white,
                   decoration: TextDecoration.none,

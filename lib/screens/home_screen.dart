@@ -57,12 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
     getConnectivity();
     super.initState();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.checkLoggin();
     navigate(authProvider.isLoggedIn, authProvider.isVerified);
 
     final mobileSettings = MobileSettings(context);
     // mobileSettings.permissionRequest();
 
-    mobileSettings.getDeviceTokenToSendNotification();
     mobileSettings.forGroundState(authProvider);
     mobileSettings.backgroundNotTerminated(authProvider);
     mobileSettings.terminatedState();

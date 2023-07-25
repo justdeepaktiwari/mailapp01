@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mailapp01/screens/splash_screen.dart';
 import 'package:mailapp01/services/notifications/local_notification_service.dart';
+import 'package:mailapp01/services/settings/settings_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -50,6 +51,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+    final mobileSettings = MobileSettings(context);
+    mobileSettings.getDeviceTokenToSendNotification();
   }
 
   @override

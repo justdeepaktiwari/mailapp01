@@ -46,6 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
     getConnectivity();
     super.initState();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.checkLoggin();
     navigate(authProvider.isLoggedIn, authProvider.isVerified);
   }
 
