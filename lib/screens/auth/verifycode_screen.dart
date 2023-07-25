@@ -253,7 +253,6 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                             auth.resetPhoneNumber ?? "",
                             code,
                           );
-                          print(response);
                           auth.checkLoggin();
                           // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();

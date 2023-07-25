@@ -14,6 +14,7 @@ import 'package:mailapp01/screens/profile_screen.dart';
 import 'package:mailapp01/screens/setting_screen.dart';
 import 'package:mailapp01/services/complex/complex_services.dart';
 import 'package:mailapp01/services/complex/join_body.dart';
+import 'package:mailapp01/services/settings/settings_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/bottom_navigation.dart';
 import 'package:mailapp01/widgets/button.dart';
@@ -57,6 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     navigate(authProvider.isLoggedIn, authProvider.isVerified);
+
+    final mobileSettings = MobileSettings(context);
+    // mobileSettings.permissionRequest();
+
+    mobileSettings.getDeviceTokenToSendNotification();
+    mobileSettings.forGroundState(authProvider);
+    mobileSettings.backgroundNotTerminated(authProvider);
+    mobileSettings.terminatedState();
   }
 
   void navigate(isLoggedIn, isVerified) {

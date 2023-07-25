@@ -56,45 +56,21 @@ class _VerifyPageState extends State<VerifyPage> {
               const Text(
                 "Please verify your account.",
                 style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    decoration: TextDecoration.none),
+                  fontSize: 25,
+                  color: Colors.white,
+                  decoration: TextDecoration.none,
+                ),
               ),
               const SizedBox(
                 height: 30.0,
               ),
-              SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Prashu kumar sharma,",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                      Text(
-                        auth.userInfo["phone"],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ],
-                  )),
-              const SizedBox(
-                height: 10.0,
-              ),
               const Text(
                 "Click on the below button and we will send an OTP to the registered number to verify your account.",
                 style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
-                    decoration: TextDecoration.none),
+                  fontSize: 15,
+                  color: Colors.white,
+                  decoration: TextDecoration.none,
+                ),
               ),
               const SizedBox(
                 height: 30.0,

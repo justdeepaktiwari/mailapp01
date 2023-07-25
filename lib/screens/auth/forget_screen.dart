@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/verifycode_screen.dart';
 import 'package:mailapp01/services/auth/auth_service.dart';
 import 'package:mailapp01/services/auth/verifycode_body.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/widgets/processing_dialog.dart';
-import 'package:provider/provider.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/text_field.dart';
@@ -25,7 +23,6 @@ class _ForgetScreenState extends State<ForgetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: AppConstants.primaryColor,
       body: SingleChildScrollView(
@@ -107,7 +104,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                       width: double.infinity,
                     ),
                     ButtonWidget(
-                      buttonName: "Send link",
+                      buttonName: "Send Code",
                       onPressed: () async {
                         _isValidNumber = phone.text.length != 13;
 

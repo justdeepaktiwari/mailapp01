@@ -3,9 +3,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mailapp01/screens/splash_screen.dart';
 import 'package:mailapp01/services/notifications/local_notification_service.dart';
-import 'package:mailapp01/services/settings/settings_services.dart';
 import 'package:mailapp01/utils/constants.dart';
 import 'package:mailapp01/utils/shared_preferences_utils.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 
@@ -15,6 +15,18 @@ Future<void> backgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final PermissionStatus status = await Permission.notification.request();
+  if (status.isGranted) {
+    // Notification permissions granted
+  } else if (status.isDenied) {
+    // Notification permissions denied
+    await openAppSettings();
+  } else if (status.isPermanentlyDenied) {
+    // Notification permissions permanently denied, open app settings
+    await openAppSettings();
+  }
+
   await SharedPreferencesUtils.init();
 
   await Firebase.initializeApp(
@@ -38,13 +50,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    final mobileSettings = MobileSettings(context);
-    mobileSettings.permissionRequest();
-
-    mobileSettings.getDeviceTokenToSendNotification();
-    mobileSettings.forGroundState();
-    mobileSettings.backgroundNotTerminated();
-    mobileSettings.terminatedState();
   }
 
   @override

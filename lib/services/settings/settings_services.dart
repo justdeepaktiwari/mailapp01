@@ -22,29 +22,19 @@ class MobileSettings {
   Future<void> permissionRequest() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    final settings = await messaging.requestPermission(
+    await messaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
-
-    print('User granted permission: ${settings.authorizationStatus}');
   }
 
-  forGroundState() {
+  forGroundState(auth) {
     FirebaseMessaging.onMessage.listen(
       (message) {
         if (message.notification != null) {
-          LocalNotificationService.createanddisplaynotification(
-            message,
-            context,
-          );
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-          );
+          LocalNotificationService.createanddisplaynotification(message);
+          auth.refreshTrue();
         }
       },
     );
@@ -65,16 +55,11 @@ class MobileSettings {
     );
   }
 
-  backgroundNotTerminated() {
+  backgroundNotTerminated(auth) {
     FirebaseMessaging.onMessageOpenedApp.listen(
       (message) {
         if (message.notification != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-          );
+          auth.refreshTrue();
         }
       },
     );

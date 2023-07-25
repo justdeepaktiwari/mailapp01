@@ -23,10 +23,7 @@ class LocalNotificationService {
     );
   }
 
-  static void createanddisplaynotification(
-    RemoteMessage message,
-    context,
-  ) async {
+  static void createanddisplaynotification(RemoteMessage message) async {
     try {
       final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 

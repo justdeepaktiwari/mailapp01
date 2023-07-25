@@ -117,7 +117,7 @@ class AuthService {
     final result = jsonDecode(response.body);
     if (response.statusCode == 200) {
       final decodedInfo = jsonDecode(
-        SharedPreferencesUtils.getStringValuesSF("userInfo") ?? "{}",
+        SharedPreferencesUtils.getStringValuesSF("userInfo"),
       );
       decodedInfo["is_verified"] = 1;
 
