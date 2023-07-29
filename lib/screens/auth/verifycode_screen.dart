@@ -137,7 +137,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                                   // ignore: use_build_context_synchronously
                                   Navigator.of(context).pop();
 
-                                  if (response["success"]) {
+                                  if (response["success"] ?? false) {
                                     showSuccessMessage(
                                       response["message"] ??
                                           "Successfully Code Sent",
@@ -155,7 +155,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                                   // ignore: use_build_context_synchronously
                                   Navigator.of(context).pop();
 
-                                  if (response["success"]) {
+                                  if (response["success"] ?? false) {
                                     showSuccessMessage(
                                       response["message"] ??
                                           "Successfully Code Sent",
@@ -200,7 +200,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                     ButtonWidget(
                       buttonName: widget.isForVerification
                           ? "Verify Now"
-                          : "Procceed Next",
+                          : "Proceed Next",
                       onPressed: () async {
                         setState(() {
                           _hasError = false;
@@ -231,7 +231,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                           // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();
 
-                          if (response["success"]) {
+                          if (response["success"] ?? false) {
                             showSuccessMessage(
                               response["message"] ?? "Successfully Verified",
                             );
@@ -256,7 +256,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                           auth.checkLoggin();
                           // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();
-                          if (response["success"]) {
+                          if (response["success"] ?? false) {
                             showSuccessMessage(
                               response["message"] ?? "Successfully Verified",
                             );

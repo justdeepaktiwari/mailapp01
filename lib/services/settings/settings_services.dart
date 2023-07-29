@@ -9,8 +9,6 @@ class MobileSettings {
   MobileSettings(this.context);
 
   Future<void> getDeviceTokenToSendNotification() async {
-    if (SharedPreferencesUtils.getStringValuesSF("deviceId").isNotEmpty) return;
-
     final fcmToken = await FirebaseMessaging.instance.getToken();
     await SharedPreferencesUtils.addStringToSF(
       "deviceId",
@@ -23,7 +21,11 @@ class MobileSettings {
 
     await messaging.requestPermission(
       alert: true,
+      announcement: false,
       badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
       sound: true,
     );
   }

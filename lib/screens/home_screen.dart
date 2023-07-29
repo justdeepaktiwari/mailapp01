@@ -21,6 +21,7 @@ import 'package:mailapp01/widgets/button.dart';
 import 'package:mailapp01/widgets/processing_dialog.dart';
 import 'package:mailapp01/widgets/text_diffrent_color.dart';
 import 'package:mailapp01/widgets/text_field.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -66,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
     mobileSettings.forGroundState(authProvider);
     mobileSettings.backgroundNotTerminated(authProvider);
     mobileSettings.terminatedState();
+    askNotificationPermission(mobileSettings);
   }
 
   void navigate(isLoggedIn, isVerified) {
@@ -183,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // ignore: use_build_context_synchronously
                                   Navigator.of(context).pop();
 
-                                  if (response["success"]) {
+                                  if (response["success"] ?? false) {
                                     auth.checkLoggin();
                                     complexId.text = '';
                                     auth.refreshTrue();
@@ -327,5 +329,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  askNotificationPermission(mobileSettings) async {
+    final PermissionStatus status = await Permission.notification.request();
+    if (status.isGranted) {
+      // Notification permissions granted
+    } else if (status.isDenied) {
+      await Permission.notification.request();
+    } else if (status.isPermanentlyDenied) {
+      // Notification permissions permanently denied, open app settings
+      await openAppSettings();
+    }
   }
 }

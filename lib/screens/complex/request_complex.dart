@@ -68,7 +68,7 @@ class _RequestComplexState extends State<RequestComplex> {
               height: 80,
             ),
             const Text(
-              "If your complex is currently not using mailbx, we will reach out to them on behalf of you.",
+              "If your complex is currently not using MailBx, we will reach out to them on behalf of you.",
               style: TextStyle(
                 color: AppConstants.white,
                 fontSize: 17,
@@ -148,7 +148,7 @@ class _RequestComplexState extends State<RequestComplex> {
                 complexLocation.text = '';
                 notes.text = '';
 
-                if (response["success"]) {
+                if (response["success"] ?? false) {
                   showSuccessMessage(
                     response["message"] ?? "Successfully requested!",
                   );

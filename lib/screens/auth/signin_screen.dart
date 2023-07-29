@@ -76,7 +76,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             const Center(
               child: Text(
-                "Sign In",
+                "Welcome To MailBx",
                 style: TextStyle(
                   fontSize: 40,
                   color: AppConstants.white,
@@ -145,7 +145,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         },
                         child: const TextDiffrentColorWidget(
                           startText: "Forgot Password?",
-                          endText: " click here",
+                          endText: " CLICK HERE",
                         ),
                       ),
                     ),
@@ -179,7 +179,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         );
 
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           auth.checkLoggin();
                           showSuccessMessage(
                             response["message"] ?? "Login Successfully!",

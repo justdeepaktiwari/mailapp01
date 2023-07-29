@@ -106,7 +106,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                     ButtonWidget(
                       buttonName: "Send Code",
                       onPressed: () async {
-                        _isValidNumber = phone.text.length != 13;
+                        _isValidNumber = phone.text.length != 10;
 
                         if (_isValidNumber) {
                           setState(() {});
@@ -117,14 +117,14 @@ class _ForgetScreenState extends State<ForgetScreen> {
 
                         final response = await AuthService.sendResetCode(
                           VerifyCodeBody(
-                            phone.text,
+                            "+1${phone.text}",
                           ),
                         );
 
                         // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
 
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           showSuccessMessage(
                             response["message"] ?? "Code sent successfully!",
                           );

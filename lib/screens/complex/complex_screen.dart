@@ -122,7 +122,7 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
                                           // ignore: use_build_context_synchronously
                                           Navigator.of(context).pop();
 
-                                          if (response["success"]) {
+                                          if (response["success"] ?? false) {
                                             auth.checkLoggin();
                                             showSuccessMessage(
                                               response["message"] ??

@@ -7,6 +7,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mailapp01/providers/auth_provider.dart';
 import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/auth/verifycode_screen.dart';
+import 'package:mailapp01/screens/home_screen.dart';
 import 'package:mailapp01/services/auth/auth_service.dart';
 import 'package:mailapp01/services/auth/verifycode_body.dart';
 import 'package:mailapp01/widgets/button.dart';
@@ -31,6 +32,16 @@ class _VerifyPageState extends State<VerifyPage> {
   void initState() {
     getConnectivity();
     super.initState();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.checkLoggin();
+    if (authProvider.isVerified) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    }
   }
 
   @override
@@ -65,7 +76,7 @@ class _VerifyPageState extends State<VerifyPage> {
                 height: 30.0,
               ),
               Text(
-                "Click on the below button and we will send an OTP on number ${auth.resetPhoneNumber} to verify your account.",
+                "We will send an OTP on number ${auth.userInfo["phone"]} to verify your account.",
                 style: const TextStyle(
                   fontSize: 15,
                   color: Colors.white,
@@ -78,6 +89,7 @@ class _VerifyPageState extends State<VerifyPage> {
               ButtonWidget(
                 onPressed: () async {
                   _showProcessingDialog();
+
                   if (auth.userInfo["phone"] != "") {
                     final response = await AuthService.sendVerifyCode(
                       VerifyCodeBody(auth.userInfo["phone"]),
@@ -86,7 +98,7 @@ class _VerifyPageState extends State<VerifyPage> {
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
 
-                    if (response["success"]) {
+                    if (response["success"] ?? false) {
                       showSuccessMessage(
                         response["message"] ?? "Successfully Code Sent",
                       );

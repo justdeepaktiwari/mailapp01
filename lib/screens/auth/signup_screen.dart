@@ -82,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             const Center(
               child: Text(
-                "Sign Up",
+                "Register Yourself",
                 style: TextStyle(
                   fontSize: 40,
                   color: AppConstants.white,
@@ -188,7 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _isValidPassword = password.text.length < 6;
                         _isValidCnfPassword =
                             password.text != confirmPassword.text;
-                        _isValidPhone = phone.text.length != 13;
+                        _isValidPhone = phone.text.length != 10;
                         _isValidName = name.text == '';
 
                         bool fieldCheck = _isValidEmail ||
@@ -207,14 +207,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           RegisterBody(
                             name.text,
                             emailAddress.text,
-                            phone.text,
+                            "+1${phone.text}",
                             password.text,
                             confirmPassword.text,
                             auth.deviceId ?? "waiting",
                           ),
                         );
 
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           auth.checkLoggin();
                           showSuccessMessage(response["message"] ??
                               "Created Account Successfully!");
