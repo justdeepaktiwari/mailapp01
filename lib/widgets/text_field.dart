@@ -42,7 +42,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.editingController,
-      obscureText: widget.isPasswordType,
+      obscureText: widget.isPasswordType ? !_isVisible : false,
       enableSuggestions: true,
       autocorrect: true,
       keyboardType: widget.textInputType,
@@ -78,6 +78,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           ),
         ),
         contentPadding: const EdgeInsets.all(20),
+        prefixText: widget.textInputType == TextInputType.phone ? "+1 " : null,
+        prefixStyle:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         suffixIcon: widget.isPasswordType
             ? IconButton(
                 onPressed: () => updateStatus(),
