@@ -138,7 +138,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         );
                         // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           showSuccessMessage(
                             response["message"] ??
                                 "Successfully password reset",

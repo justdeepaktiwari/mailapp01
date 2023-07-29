@@ -56,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   final response = await AuthService.logoutUser();
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
-                  if (response["success"] == true) {
+                  if (response["success"] ?? false == true) {
                     auth.checkLoggin();
                     auth.logout();
                     setState(() {});
@@ -185,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             );
 
-                            if (response["success"]) {
+                            if (response["success"] ?? false) {
                               auth.checkLoggin();
                               showSuccessMessage(
                                 response["message"] ??

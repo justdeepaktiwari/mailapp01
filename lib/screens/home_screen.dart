@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // ignore: use_build_context_synchronously
                                   Navigator.of(context).pop();
 
-                                  if (response["success"]) {
+                                  if (response["success"] ?? false) {
                                     auth.checkLoggin();
                                     complexId.text = '';
                                     auth.refreshTrue();

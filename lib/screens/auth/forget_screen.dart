@@ -124,7 +124,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                         // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
 
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           showSuccessMessage(
                             response["message"] ?? "Code sent successfully!",
                           );

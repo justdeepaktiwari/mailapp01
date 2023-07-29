@@ -82,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             const Center(
               child: Text(
-                "Sign Up",
+                "Register Yourself",
                 style: TextStyle(
                   fontSize: 40,
                   color: AppConstants.white,
@@ -214,7 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         );
 
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           auth.checkLoggin();
                           showSuccessMessage(response["message"] ??
                               "Created Account Successfully!");

@@ -68,7 +68,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
                         // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           userInfo.checkLoggin();
                           showSuccessMessage(
                             response["message"] ??
@@ -101,7 +101,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Notification By Mailbx",
+                      "Notification By MailBx",
                       style: TextStyle(
                         color: AppConstants.white,
                         fontSize: 25,
@@ -119,7 +119,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         );
                         // ignore: use_build_context_synchronously
                         Navigator.of(context).pop();
-                        if (response["success"]) {
+                        if (response["success"] ?? false) {
                           userInfo.checkLoggin();
                           showSuccessMessage(
                             response["message"] ??
