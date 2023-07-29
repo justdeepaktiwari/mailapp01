@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     name.text = authProvider.userInfo["name"];
-    phone.text = authProvider.userInfo["phone"];
+    phone.text = authProvider.userInfo["phone"].replaceAll("+1", "");
     emailAddress.text = authProvider.userInfo["email"];
   }
 
@@ -128,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           isPasswordType: false,
                           textInputType: TextInputType.phone,
                           isNotUpdatedField: true,
-                          errorText: phone.text == '' || phone.text.length != 13
+                          errorText: phone.text == '' || phone.text.length != 10
                               ? "Enter correct number"
                               : null,
                         ),
@@ -180,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             final response = await UserService.updateUser(
                               ProfileBody(
                                 name: name.text,
-                                phone: phone.text,
+                                phone: "+1${phone.text}",
                                 password: password.text,
                               ),
                             );

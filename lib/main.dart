@@ -16,18 +16,6 @@ Future<void> backgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final PermissionStatus status = await Permission.notification.request();
-  if (status.isGranted) {
-    // Notification permissions granted
-  } else if (status.isDenied) {
-    // Notification permissions denied
-    await openAppSettings();
-  } else if (status.isPermanentlyDenied) {
-    // Notification permissions permanently denied, open app settings
-    await openAppSettings();
-  }
-
   await SharedPreferencesUtils.init();
 
   await Firebase.initializeApp(
@@ -36,7 +24,6 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   LocalNotificationService.initialize();
-
   runApp(const MyApp());
 }
 
@@ -51,9 +38,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
     final mobileSettings = MobileSettings(context);
+    mobileSettings.permissionRequest();
     mobileSettings.getDeviceTokenToSendNotification();
+
+    askNotificationPermission();
   }
 
   @override
@@ -69,5 +58,17 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
       ),
     );
+  }
+
+  askNotificationPermission() async {
+    final PermissionStatus status = await Permission.notification.request();
+    if (status.isGranted) {
+      // Notification permissions granted
+    } else if (status.isDenied) {
+      await Permission.notification.request();
+    } else if (status.isPermanentlyDenied) {
+      // Notification permissions permanently denied, open app settings
+      await openAppSettings();
+    }
   }
 }

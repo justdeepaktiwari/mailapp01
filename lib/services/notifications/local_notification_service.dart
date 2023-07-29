@@ -5,7 +5,7 @@ class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  static void initialize() {
+  static void initialize() async {
     // initializationSettings for Android
 
     const InitializationSettings initializationSettings =
@@ -21,6 +21,11 @@ class LocalNotificationService {
         NotificationResponse notificationResponse,
       ) async {},
     );
+
+    // await _notificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.requestPermission();
   }
 
   static void createanddisplaynotification(RemoteMessage message) async {
