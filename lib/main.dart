@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:mailapp01/screens/auth/signin_screen.dart';
 import 'package:mailapp01/screens/splash_screen.dart';
 import 'package:mailapp01/services/notifications/local_notification_service.dart';
 import 'package:mailapp01/services/settings/settings_services.dart';
