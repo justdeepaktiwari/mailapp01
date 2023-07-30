@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mailapp01/utils/constants.dart';
 
 // ignore: must_be_immutable
-class TextFieldWidget extends StatelessWidget {
+class TextFieldWidget extends StatefulWidget {
   final String? errorText;
 
   final String labelText;
@@ -26,13 +26,26 @@ class TextFieldWidget extends StatelessWidget {
   });
 
   @override
+  State<TextFieldWidget> createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> {
+  bool _isVisible = false;
+
+  void updateStatus() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: editingController,
-      obscureText: isPasswordType,
+      controller: widget.editingController,
+      obscureText: widget.isPasswordType ? !_isVisible : false,
       enableSuggestions: true,
       autocorrect: true,
-      keyboardType: textInputType,
+      keyboardType: widget.textInputType,
       style: const TextStyle(color: AppConstants.white),
       decoration: InputDecoration(
         labelStyle: const TextStyle(
@@ -40,8 +53,8 @@ class TextFieldWidget extends StatelessWidget {
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
-        errorText: errorText,
-        labelText: labelText,
+        errorText: widget.errorText,
+        labelText: widget.labelText,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -65,6 +78,16 @@ class TextFieldWidget extends StatelessWidget {
           ),
         ),
         contentPadding: const EdgeInsets.all(20),
+        prefixText: widget.textInputType == TextInputType.phone ? "+1 " : null,
+        prefixStyle:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        suffixIcon: widget.isPasswordType
+            ? IconButton(
+                onPressed: () => updateStatus(),
+                icon:
+                    Icon(_isVisible ? Icons.visibility : Icons.visibility_off),
+              )
+            : null,
       ),
     );
   }
