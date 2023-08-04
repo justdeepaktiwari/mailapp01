@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "879230167057",
-    "project_id": "mailbx-andriod",
-    "storage_bucket": "mailbx-andriod.appspot.com"
+    "project_number": "742755751755",
+    "project_id": "mailbx-a6227",
+    "storage_bucket": "mailbx-a6227.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:879230167057:android:223b43db7a21a88bd529b0",
+        "mobilesdk_app_id": "1:742755751755:android:153b14abda11ee3bbd7ace",
         "android_client_info": {
-          "package_name": "com.example.mailapp01"
+          "package_name": "app.mailbx.mailbx"
         }
       },
       "oauth_client": [
         {
-          "client_id": "879230167057-9c0mg8vat21029vj6uc86q87qmivcajd.apps.googleusercontent.com",
+          "client_id": "742755751755-akbs0cslslcujndn0tj3ko0tagonmk2f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBV9HR_LPjJjixaNg_UVSU3Ecoq2A7RKyQ"
+          "current_key": "AIzaSyCTQ1r81dlxyu5URQcGncD4k87ccDpMu2k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "879230167057-9c0mg8vat21029vj6uc86q87qmivcajd.apps.googleusercontent.com",
+              "client_id": "742755751755-akbs0cslslcujndn0tj3ko0tagonmk2f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

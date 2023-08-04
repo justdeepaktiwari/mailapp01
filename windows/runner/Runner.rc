@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "mailapp01" "\0"
+            VALUE "FileDescription", "MailBx" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "mailapp01" "\0"
+            VALUE "InternalName", "MailBx" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "mailapp01.exe" "\0"
-            VALUE "ProductName", "mailapp01" "\0"
+            VALUE "ProductName", "MailBx" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

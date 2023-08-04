@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAblLiBNrX1jkCdgVhvzh8I6qvIG_EPfPQ',
-    appId: '1:879230167057:web:03f6f0751f09ec74d529b0',
-    messagingSenderId: '879230167057',
-    projectId: 'mailbx-andriod',
-    authDomain: 'mailbx-andriod.firebaseapp.com',
-    storageBucket: 'mailbx-andriod.appspot.com',
-    measurementId: 'G-MMMQ9FM1K1',
+    apiKey: 'AIzaSyCAtAIjk6F0rPgJTqxpxVKi47lr-0_306o',
+    appId: '1:742755751755:web:b0b9f7528902da85bd7ace',
+    messagingSenderId: '742755751755',
+    projectId: 'mailbx-a6227',
+    authDomain: 'mailbx-a6227.firebaseapp.com',
+    storageBucket: 'mailbx-a6227.appspot.com',
+    measurementId: 'G-DQ3HVP5SQ1',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBV9HR_LPjJjixaNg_UVSU3Ecoq2A7RKyQ',
-    appId: '1:879230167057:android:223b43db7a21a88bd529b0',
-    messagingSenderId: '879230167057',
-    projectId: 'mailbx-andriod',
-    storageBucket: 'mailbx-andriod.appspot.com',
+    apiKey: 'AIzaSyCTQ1r81dlxyu5URQcGncD4k87ccDpMu2k',
+    appId: '1:742755751755:android:153b14abda11ee3bbd7ace',
+    messagingSenderId: '742755751755',
+    projectId: 'mailbx-a6227',
+    storageBucket: 'mailbx-a6227.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBcuKc6mcmiXTOFL2407nFXBqV6b_yr-H4',
-    appId: '1:879230167057:ios:9bd47492d0abb713d529b0',
-    messagingSenderId: '879230167057',
-    projectId: 'mailbx-andriod',
-    storageBucket: 'mailbx-andriod.appspot.com',
-    iosClientId: '879230167057-9p78dbu3nu1bkdgkoq0sjsve1p8in32k.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mailapp01',
+    apiKey: 'AIzaSyD-RwS2M57tAxweD5RVRK_ReQEt4pECbq8',
+    appId: '1:742755751755:ios:ffa9a5697e3939adbd7ace',
+    messagingSenderId: '742755751755',
+    projectId: 'mailbx-a6227',
+    storageBucket: 'mailbx-a6227.appspot.com',
+    iosClientId: '742755751755-oijabsp02k9k1c2m2gbs5u6g3tis14kv.apps.googleusercontent.com',
+    iosBundleId: 'app.mailbx.mailbx',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBcuKc6mcmiXTOFL2407nFXBqV6b_yr-H4',
-    appId: '1:879230167057:ios:9c38320291d00cabd529b0',
-    messagingSenderId: '879230167057',
-    projectId: 'mailbx-andriod',
-    storageBucket: 'mailbx-andriod.appspot.com',
-    iosClientId: '879230167057-c02q8bj9l2e3fkgg4407h6amabuljjuf.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD-RwS2M57tAxweD5RVRK_ReQEt4pECbq8',
+    appId: '1:742755751755:ios:24c381cb53c8b329bd7ace',
+    messagingSenderId: '742755751755',
+    projectId: 'mailbx-a6227',
+    storageBucket: 'mailbx-a6227.appspot.com',
+    iosClientId: '742755751755-rnmcdc2fvg2lug3kbh7bo02v78ke9khv.apps.googleusercontent.com',
     iosBundleId: 'com.example.mailapp01.RunnerTests',
   );
 }

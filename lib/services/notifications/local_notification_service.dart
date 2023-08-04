@@ -6,13 +6,19 @@ class LocalNotificationService {
       FlutterLocalNotificationsPlugin();
 
   static void initialize() async {
-    // initializationSettings for Android
+    AndroidInitializationSettings androidInitializationSettings =
+        const AndroidInitializationSettings("ic_launcher");
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: AndroidInitializationSettings(
-        "@mipmap/ic_launcher",
-      ),
+    var iosInitializationSettings = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      onDidReceiveLocalNotification: (id, title, body, payload) {},
+    );
+
+    InitializationSettings initializationSettings = InitializationSettings(
+      android: androidInitializationSettings,
+      iOS: iosInitializationSettings,
     );
 
     _notificationsPlugin.initialize(
@@ -21,11 +27,6 @@ class LocalNotificationService {
         NotificationResponse notificationResponse,
       ) async {},
     );
-
-    // await _notificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()
-    //     ?.requestPermission();
   }
 
   static void createanddisplaynotification(RemoteMessage message) async {
@@ -39,6 +40,7 @@ class LocalNotificationService {
           importance: Importance.max,
           priority: Priority.high,
         ),
+        iOS: DarwinNotificationDetails(),
       );
 
       await _notificationsPlugin.show(
