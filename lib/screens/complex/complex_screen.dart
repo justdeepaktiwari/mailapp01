@@ -62,6 +62,7 @@ class _ComplexsScreenState extends State<ComplexsScreen> {
               )
             : SafeArea(
                 child: CustomScrollView(
+                  scrollDirection: Axis.vertical,
                   slivers: [
                     const SliverAppBar(
                       title: PageHeadingWidget(

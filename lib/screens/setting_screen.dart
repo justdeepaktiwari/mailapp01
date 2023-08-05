@@ -21,6 +21,7 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     final userInfo = Provider.of<AuthProvider>(context);
     return CustomScrollView(
+      scrollDirection: Axis.vertical,
       slivers: [
         const SliverAppBar(
           title: PageHeadingWidget(

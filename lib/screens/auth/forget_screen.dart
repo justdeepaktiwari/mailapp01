@@ -26,6 +26,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
     return Scaffold(
       backgroundColor: AppConstants.primaryColor,
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           children: [
             const SizedBox(
@@ -40,6 +41,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                   color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(

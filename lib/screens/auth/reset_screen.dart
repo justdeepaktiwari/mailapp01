@@ -44,6 +44,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       backgroundColor: AppConstants.primaryColor,
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           children: [
             const SizedBox(
@@ -58,6 +59,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(

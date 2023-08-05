@@ -98,6 +98,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       ),
                     )
                   : CustomScrollView(
+                      scrollDirection: Axis.vertical,
                       slivers: [
                         const SliverAppBar(
                           title: PageHeadingWidget(

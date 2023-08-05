@@ -74,6 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: AppConstants.primaryColor,
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           children: [
             const SizedBox(
@@ -88,6 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(

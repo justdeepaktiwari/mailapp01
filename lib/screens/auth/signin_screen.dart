@@ -69,6 +69,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          scrollDirection: Axis.vertical,
           children: [
             const SizedBox(
               height: 80,
@@ -82,6 +83,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   color: AppConstants.white,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(

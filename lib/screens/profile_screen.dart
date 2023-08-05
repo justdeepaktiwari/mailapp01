@@ -40,6 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final auth = Provider.of<AuthProvider>(context);
     return SafeArea(
       child: CustomScrollView(
+        scrollDirection: Axis.vertical,
         slivers: [
           SliverAppBar(
             title: const PageHeadingWidget(
