@@ -127,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: 20,
                       width: double.infinity,
                     ),
-                    TextFieldWidget(
+                    TextFieldWidgetNumber(
                       labelText: "Phone Number",
                       editingController: phone,
                       isPasswordType: false,

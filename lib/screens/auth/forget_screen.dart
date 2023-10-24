@@ -25,6 +25,14 @@ class _ForgetScreenState extends State<ForgetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppConstants.primaryColor,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        backgroundColor: AppConstants.primaryColor,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -90,7 +98,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    TextFieldWidget(
+                    TextFieldWidgetNumber(
                       labelText: "Phone Number",
                       editingController: phone,
                       isPasswordType: false,

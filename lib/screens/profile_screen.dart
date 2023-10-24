@@ -123,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: 20,
                           width: double.infinity,
                         ),
-                        TextFieldIconWidget(
+                        TextFieldIconWidgetNumber(
                           labelText: "Phone Number",
                           editingController: phone,
                           isPasswordType: false,
