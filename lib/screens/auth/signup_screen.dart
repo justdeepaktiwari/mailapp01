@@ -190,7 +190,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _isValidPassword = password.text.length < 6;
                         _isValidCnfPassword =
                             password.text != confirmPassword.text;
-                        _isValidPhone = phone.text.length != 10;
+
+                        var replacedText = phone.text.replaceAll(RegExp('[^0-9]'), '');
+                        _isValidPhone = replacedText.replaceAll(RegExp('[^0-9]'), '').length != 10;
+
                         _isValidName = name.text == '';
 
                         bool fieldCheck = _isValidEmail ||
@@ -209,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           RegisterBody(
                             name.text,
                             emailAddress.text,
-                            "+1${phone.text}",
+                            "+91$replacedText",
                             password.text,
                             confirmPassword.text,
                             auth.deviceId ?? "waiting",

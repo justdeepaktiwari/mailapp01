@@ -89,12 +89,11 @@ class _VerifyPageState extends State<VerifyPage> {
               ButtonWidget(
                 onPressed: () async {
                   _showProcessingDialog();
-
                   if (auth.userInfo["phone"] != "") {
                     final response = await AuthService.sendVerifyCode(
                       VerifyCodeBody(auth.userInfo["phone"]),
                     );
-
+                    // print(response); return;
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
 

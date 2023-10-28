@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/utils/constants.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 // ignore: must_be_immutable
 class TextFieldWidget extends StatefulWidget {
@@ -46,6 +47,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       enableSuggestions: true,
       autocorrect: true,
       keyboardType: widget.textInputType,
+      inputFormatters: widget.textInputType == TextInputType.phone ? [maskFormatter] : [],
       style: const TextStyle(color: AppConstants.white),
       decoration: InputDecoration(
         labelStyle: const TextStyle(
@@ -91,4 +93,10 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       ),
     );
   }
+
+    var maskFormatter = MaskTextInputFormatter(
+      mask: '(###) ###-##-##', 
+      filter: { "#": RegExp(r'[0-9]') },
+      type: MaskAutoCompletionType.lazy
+    );
 }
