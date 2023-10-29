@@ -48,6 +48,34 @@ class _VerifyPageState extends State<VerifyPage> {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () async {
+            _showProcessingDialog();
+            final response = await AuthService.logoutUser();
+              // ignore: use_build_context_synchronously
+              Navigator.of(context).pop();
+            
+              auth.checkLoggin();
+              auth.logout();
+              setState(() {});
+
+              showSuccessMessage(
+                response["message"] ?? "Error in logout",
+              );
+              // ignore: use_build_context_synchronously
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SignInScreen(),
+                ),
+              );
+          },
+        ),
+        backgroundColor: AppConstants.primaryColor,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Container(
           color: AppConstants.primaryColor,

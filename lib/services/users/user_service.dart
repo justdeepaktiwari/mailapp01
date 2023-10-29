@@ -24,7 +24,7 @@ class UserService {
         "email": result["data"]["user"]["email"],
         "push": result["data"]["user"]["push_notification"],
         "sms": result["data"]["user"]["sms_notification"],
-        "is_verified": result["data"]["user"]["is_verified"],
+        "is_verified": result["data"]["user"]["is_verified"] ?? 0,
       });
       await SharedPreferencesUtils.addStringToSF(
         "userInfo",
@@ -55,7 +55,7 @@ class UserService {
         "email": result["data"]["user"]["email"],
         "push": result["data"]["user"]["push_notification"],
         "sms": result["data"]["user"]["sms_notification"],
-        "is_verified": result["data"]["user"]["is_verified"],
+        "is_verified": result["data"]["user"]["is_verified"] ?? 0,
       });
       await SharedPreferencesUtils.addStringToSF(
         "userInfo",

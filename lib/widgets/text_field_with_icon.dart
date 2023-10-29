@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mailapp01/utils/constants.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 // ignore: must_be_immutable
 class TextFieldIconWidget extends StatelessWidget {
@@ -31,6 +32,7 @@ class TextFieldIconWidget extends StatelessWidget {
       autocorrect: true,
       enabled: isNotUpdatedField,
       keyboardType: textInputType,
+      inputFormatters: textInputType == TextInputType.phone ? [maskFormatter] : [],
       style: const TextStyle(
         color: AppConstants.white,
       ),
@@ -53,6 +55,9 @@ class TextFieldIconWidget extends StatelessWidget {
             width: 2,
           ),
         ),
+        prefixText: textInputType == TextInputType.phone ? "+1 " : null,
+        prefixStyle:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: const BorderSide(
@@ -78,4 +83,9 @@ class TextFieldIconWidget extends StatelessWidget {
       ),
     );
   }
+   var maskFormatter = MaskTextInputFormatter(
+      mask: '(###) ###-##-##', 
+      filter: { "#": RegExp(r'[0-9]') },
+      type: MaskAutoCompletionType.lazy
+    );
 }

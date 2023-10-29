@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     name.text = authProvider.userInfo["name"];
-    phone.text = authProvider.userInfo["phone"].replaceAll("+1", "");
+    phone.text = authProvider.userInfo["phone"].replaceAll("+91", "");
     emailAddress.text = authProvider.userInfo["email"];
   }
 
@@ -55,38 +55,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () async {
                   _showProcessingDialog();
                   final response = await AuthService.logoutUser();
+                  auth.checkLoggin();
+                  auth.logout();  
+
                   // ignore: use_build_context_synchronously
                   Navigator.of(context).pop();
-                  if (response["success"] ?? false == true) {
-                    auth.checkLoggin();
-                    auth.logout();
-                    setState(() {});
-                    showSuccessMessage(
-                      response["message"] ?? "Error in logout",
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacement(
+                  showSuccessMessage(
+                    response["message"] ?? "Error in logout",
+                  );
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const SignInScreen(),
                       ),
-                    );
-                  } else {
-                    auth.checkLoggin();
-                    auth.logout();
-                    setState(() {});
-                    setState(() {});
-                    showSuccessMessage(
-                      response["message"] ?? "Error in logout",
-                    );
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignInScreen(),
-                      ),
-                    );
-                  }
+                  );
                 },
               ),
             ],
@@ -129,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           isPasswordType: false,
                           textInputType: TextInputType.phone,
                           isNotUpdatedField: true,
-                          errorText: phone.text == '' || phone.text.length != 10
+                          errorText: phone.text == '' || phone.text.replaceAll(RegExp('[^0-9]'), '').length != 10
                               ? "Enter correct number"
                               : null,
                         ),
@@ -169,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             if (name.text == '' ||
                                 phone.text == '' ||
                                 (password.text != '' &&
-                                    password.text.length < 6)) {
+                                    password.text.replaceAll(RegExp('[^0-9]'), '').length < 6)) {
                               setState(() {});
                               return;
                             }

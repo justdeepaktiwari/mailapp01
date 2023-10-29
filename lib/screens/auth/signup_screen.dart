@@ -192,7 +192,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password.text != confirmPassword.text;
 
                         var replacedText = phone.text.replaceAll(RegExp('[^0-9]'), '');
-                        _isValidPhone = replacedText.replaceAll(RegExp('[^0-9]'), '').length != 10;
+                        _isValidPhone = replacedText.length != 10;
 
                         _isValidName = name.text == '';
 
@@ -212,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           RegisterBody(
                             name.text,
                             emailAddress.text,
-                            "+91$replacedText",
+                            "+91${phone.text}",
                             password.text,
                             confirmPassword.text,
                             auth.deviceId ?? "waiting",
@@ -243,12 +243,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         if (auth.isLoggedIn) {
                           // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
-                            ),
-                          );
+                          navigate(auth.isLoggedIn, auth.isVerified);
                         }
                       },
                     ),
@@ -360,4 +355,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ],
         ),
       );
+      
 }
